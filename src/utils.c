@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_check.c                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/07 15:07:01 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/10 14:04:23 by pcazac           ###   ########.fr       */
+/*   Created: 2023/07/10 13:58:42 by pcazac            #+#    #+#             */
+/*   Updated: 2023/07/10 14:14:11 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/so_long.h"
 
-int check_all(int argc)
+void	purge(char **map)
 {
-	if (argc != 2)
-	{
-		perror("Wrong arguments!"), 
-		exit(1);
-	}
-	return (EXIT_SUCCESS);
-}
+	int	i;
+	int	j;
 
-// Check that the file has a .ber type of extention 
+	i = 0;
+	j = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] == '\n')
+				map[i][j] = '\0';
+			j++;
+		}
+		i++;
+	}
+}
