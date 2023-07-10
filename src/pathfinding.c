@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:13:51 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/10 18:07:43 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/10 18:23:58 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ collectible **find_collectibles(char **map)
 	collectible	**list;
 	int			address[2];
 
-	i = 0;
-	j = 0;
+	i = -1;
+	list = NULL;
 	address[0] = 0;
 	address[1] = 0;
-	while (map[i])
+	while (map[++i])
 	{
-		j = 0;
-		while(map[i][j])
+		j = -1;
+		while(map[i][++j])
 		{
 			if(map[i][j] == 'C')
 			{
@@ -34,9 +34,7 @@ collectible **find_collectibles(char **map)
 				address[1] = j;
 				add_node(list, address);
 			}
-			j++;
 		}
-		i++;
 	}
 	return (list);
 }
@@ -47,12 +45,11 @@ void	find_element(char **map, element *elements)
 	int	j;
 	element	elements;
 
-	i = 0;
-	j = 0;
-	while (map[i])
+	i = -1;
+	while (map[++i])
 	{
-		j = 0;
-		while(map[i][j])
+		j = -1;
+		while(map[i][++j])
 		{
 			if(map[i][j] == 'P')
 			{
@@ -64,11 +61,14 @@ void	find_element(char **map, element *elements)
 				elements->exit[0] = i;
 				elements->exit[1] = j;
 			}
-			j++;
 		}
-		i++;
 	}
 }
+void	fill_map(map)
+{
+	
+}
+
 
 void	find_path(char **map)
 {

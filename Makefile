@@ -6,7 +6,7 @@
 #    By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/10 10:01:48 by pcazac            #+#    #+#              #
-#    Updated: 2023/07/10 14:01:00 by pcazac           ###   ########.fr        #
+#    Updated: 2023/07/10 18:19:39 by pcazac           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ LIB_PATH = -Llibft
 LIBRARY = -lft
 OBJ_PATH = obj
 
-SRC = so_long.c init_check.c parser.c utils.c
+SRC = so_long.c init_check.c parser.c utils.c pathfinding.c list_utils.c
 OBJ = $(SRC:%.c=$(OBJ_PATH)/%.o)
 
 CC= cc
