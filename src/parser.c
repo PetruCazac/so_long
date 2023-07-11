@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:00:05 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/10 15:13:47 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/11 18:02:31 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char **get_matrix(int fd, int count)
 	}
 	return (matrix);
 }
-// Check if it is square
+
 int	square(char **map)
 {
 	int	i;
@@ -65,7 +65,7 @@ int	square(char **map)
 	}
 	return (EXIT_SUCCESS);
 }
-// Check if all the walls are closed
+
 void	all_walls_closed(char **map)
 {
 	int j;
@@ -97,7 +97,7 @@ void	all_walls_closed(char **map)
 		c++;
 	}
 }
-// Check if it is has at least 1 mandatory element and max 1 player and 1 exit
+
 void	mandatory_elements(char **map)
 {
 	int	i;
@@ -163,7 +163,7 @@ void	mandatory_elements(char **map)
 		exit(errno);
 	}
 }
-// Check if the file exists and the file descriptors -> To be checked in the parsing function
+
 char **parser(char *file)
 {
 	char	**matrix;

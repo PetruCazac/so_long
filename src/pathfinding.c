@@ -6,45 +6,19 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:13:51 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/10 18:23:58 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/11 18:39:19 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/so_long.h"
-// Check if there is at least one possible path to get to the exit
-collectible **find_collectibles(char **map)
+
+void	find_element(char **map, element **e)
 {
-	int			i;
-	int			j;
-	collectible	**list;
-	int			address[2];
+	int		i;
+	int		j;
+	element	*elements;
 
-	i = -1;
-	list = NULL;
-	address[0] = 0;
-	address[1] = 0;
-	while (map[++i])
-	{
-		j = -1;
-		while(map[i][++j])
-		{
-			if(map[i][j] == 'C')
-			{
-				address[0] = i;
-				address[1] = j;
-				add_node(list, address);
-			}
-		}
-	}
-	return (list);
-}
-
-void	find_element(char **map, element *elements)
-{
-	int	i;
-	int	j;
-	element	elements;
-
+	elements = *e;
 	i = -1;
 	while (map[++i])
 	{
@@ -64,21 +38,69 @@ void	find_element(char **map, element *elements)
 		}
 	}
 }
-void	fill_map(map)
+
+void	filler(char **c, mapfill **t, int i, int j)
 {
-	
+	c[i][j] = '2';
+	if (add_node(t, i, j) == EXIT_FAILURE)
+		free_mapfill(*t);
 }
 
+char	**fill_map(char **map, element *elements)
+{
+	mapfill	*t;
+	char	**c;
+
+	t = malloc(sizeof(mapfill *));
+	t->a[0] = elements->player[0];
+	t->a[1] = elements->player[1];
+	c = copymap(map);
+	while (t)
+	{
+		if (c[t->a[0] - 1][t->a[1]] != '1' && c[t->a[0] - 1][t->a[1]] != '2')
+			filler(c, &t, t->a[0] - 1, t->a[1]);
+		if (c[t->a[0] + 1][t->a[1]] != '1' && c[t->a[0] + 1][t->a[1]] != '2')
+			filler(c, &t, t->a[0] + 1, t->a[1]);
+		if (c[t->a[0]][t->a[1] - 1] != '1' && c[t->a[0]][t->a[1] - 1] != '2')
+			filler(c, &t, t->a[0], t->a[1] - 1);
+		if (c[t->a[0]][t->a[1] + 1] != '1' && c[t->a[0]][t->a[1] + 1] != '2')
+			filler(c, &t, t->a[0], t->a[1] + 1);
+		t = t->next;
+	}
+	free_mapfill(t);
+	return(c);
+}
+
+int	check_map(char** map)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	while (map[++i])
+	{
+		j = -1;
+		while (map[i][++j])
+		{
+			if (map[i][j] == 'C' || map[i][j] == 'E')
+				return (free(map), EXIT_FAILURE);
+		}
+	}
+	return (free_array(map), EXIT_SUCCESS);
+}
 
 void	find_path(char **map)
 {
-	int			i;
 	element		*elements;
-	collectible	**collectibles;
 
-	find_element(map, elements);
-	collectibles = find_collectibles(map);
-	fill_map(map, elements, collectibles);
-	i = 0;
-	
+	elements = malloc(sizeof(element *));
+	find_element(map, &elements);
+	if (check_map(fill_map(map, elements)) == EXIT_FAILURE)
+	{
+		free(elements);
+		free_array(map);
+		errno = 1;
+		perror("NOT ALL ELEMENTS CAN BE REACHED");
+		exit(errno);
+	}
 }
