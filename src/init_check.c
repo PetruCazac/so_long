@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:07:01 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/10 14:04:23 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/13 16:52:13 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int check_all(int argc)
 {
 	if (argc != 2)
 	{
-		perror("Wrong arguments!"), 
+		perror("Wrong arguments!");
 		exit(1);
 	}
 	return (EXIT_SUCCESS);

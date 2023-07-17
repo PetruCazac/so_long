@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:58:42 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/11 17:28:12 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/17 08:26:50 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,17 @@ char **copymap(char **map)
 		i++;
 	copy_map = ft_calloc(i + 1, sizeof(char *));
 	if (copy_map == NULL)
-		return (0);
+		return (NULL);
 	i = -1;
 	while (map[++i])
+	{
 		copy_map[i] = ft_strdup(map[i]);
+		if (copy_map[i] == NULL)
+		{
+			free_array(copy_map);
+			return (NULL);
+		}
+	}
 	return (copy_map);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:00:05 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/11 18:02:31 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/13 16:56:24 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,15 @@ char **get_matrix(int fd, int count)
 	if (!line)
 	{
 		matrix = ft_calloc(((size_t) count) + 1, sizeof(char *));
+		if (matrix == NULL)
+			return (free(line), NULL);
 		matrix[count] = line;
 	}
 	else if (line[0] != '\0')
 	{
 		matrix = get_matrix(fd, count);
+		if (matrix == NULL)
+			return (free(line), NULL);
 		matrix[count - 1] = line;
 	}
 	return (matrix);
@@ -168,7 +172,6 @@ char **parser(char *file)
 {
 	char	**matrix;
 	int		fd;
-	// map_list map;
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0) 
@@ -182,8 +185,5 @@ char **parser(char *file)
 	square(matrix);
 	all_walls_closed(matrix);
 	mandatory_elements(matrix);
-	// map = to_list(matrix);
-	
 	return (matrix);
 }
-	
