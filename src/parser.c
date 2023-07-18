@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:00:05 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/13 16:56:24 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/18 10:41:39 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,12 @@ char **parser(char *file)
 	char	**matrix;
 	int		fd;
 
+	if (ft_strcmp(&(file[ft_strlen(file) - 4]), ".ber") != 0)
+	{
+		errno = 1;
+		perror("WRONG FILE");
+		exit(errno);
+	}
 	fd = open(file, O_RDONLY);
 	if (fd < 0) 
 	{
