@@ -34,12 +34,8 @@ void	find_element(char **map, int (*player)[2])
 
 char	**fill_map(char **map, int *source)
 {
-	int	i;
-	int	j;
 	int	next[2];
-	
-	i = source[0];
-	j = source[1];
+
 	if (map[source[0]][source[1]] != '1')
 	{
 		if ( map[source[0] + 1][source[1]] != '1')

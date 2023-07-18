@@ -14,11 +14,9 @@
 
 char **get_matrix(int fd, int count)
 {
-	int		i;
 	char	*line;
 	char	**matrix;
 
-	i = 0;
 	line = NULL;
 	matrix = NULL;
 	line = get_next_line(fd);

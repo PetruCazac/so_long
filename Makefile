@@ -12,15 +12,26 @@
 
 NAME = so_long
 LIBFT = libft/libft.a
-MINILIBX = MLX42/build/libmlx42.a
+
 
 
 LIB_PATH = -Llibft
 LIBRARY = -lft
 
 LIBMLX = ./MLX42
-MLX_PATH = -L"/Users/$(USER)/.brew/opt/glfw/lib/"
-MLX = -Iinclude -lglfw -framework Cocoa -framework OpenGL -framework IOKit
+
+OS := $(shell uname)
+ifeq ($(OS), Darwin)
+	MINILIBX = MLX42/build/libmlx42.a
+	MLX_PATH = -L"/Users/$(USER)/.brew/opt/glfw/lib/"
+	MLX = -Iinclude -lglfw -framework Cocoa -framework OpenGL -framework IOKit
+else ifeq ($(OS), Linux)
+	MINILIBX = MLX42/build/libmlx42.a
+	MLX_PATH = -L"MLX42/build/"
+	MLX = -Iinclude -ldl -lglfw -pthread -lm
+else 
+	$(shell echo "OS not supported");
+endif
 
 VPATH = src/ ; obj/ ; src_bonus/ ;
 
@@ -33,14 +44,14 @@ CFLAGS= -g -Wall -Wextra -Werror -Wunreachable-code -Ofast -DEBUG=1
 
 all: libmlx $(NAME) 
 
-# libmlx:
-# 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+libmlx:
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
 $(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB_PATH) $(LIBRARY) $(MINILIBX) $(MLX) $(MLX_PATH)
 
 $(LIBFT):
-	make -C $(@D) fclean
+	# make -C $(@D) fclean
 	make -C $(@D) all
 
 $(OBJ_PATH)/%.o : %.c
@@ -52,9 +63,9 @@ clean:
 	$(MAKE) -C ./libft/ clean
 
 fclean: clean
-	@/bin/rm -f $(NAME) 
+	@/bin/rm -f $(NAME)
 	$(MAKE) -C ./libft/ fclean
 	
-re: fclean all 
+re: fclean all
 
 .PHONY: all, clean, fclean, re, memory, libmlx
