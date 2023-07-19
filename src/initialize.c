@@ -12,25 +12,25 @@
 
 #include "../header/so_long.h"
 
-void initialize(mlx_t *mlx, image_p *image, texture_p *texture)
+void initialize(gameplay *data)
 {
-	texture->walls = mlx_load_png("Textures/Tile_Textures/Grass1.png");
-	texture->ground = mlx_load_png("Textures/Tile_Textures/Walls.png");
-	texture->collectible = mlx_load_png("Textures/Collectible/Player1.png");
-	texture->exit = mlx_load_png("Textures/Fire/fire1.png");
+	data->texture->walls = mlx_load_png("Textures/Tile_Textures/Grass1.png");
+	data->texture->ground = mlx_load_png("Textures/Tile_Textures/Walls.png");
+	// data->texture->collectible = mlx_load_png("Textures/Collectible/Player1.png");
+	// data->texture->exit = mlx_load_png("Textures/Fire/fire1.png");
 	
-	image->walls = mlx_texture_to_image(mlx, texture->walls);
-	image->ground = mlx_texture_to_image(mlx, texture->ground);
-	image->collectible = mlx_texture_to_image(mlx, texture->collectible);
-	image->exit = mlx_texture_to_image(mlx, texture->exit);
+	data->image->walls = mlx_texture_to_image(data->mlx, data->texture->walls);
+	data->image->ground = mlx_texture_to_image(data->mlx, data->texture->ground);
+	// data->image->collectible = mlx_texture_to_image(data->mlx, data->texture->collectible);
+	// data->image->exit = mlx_texture_to_image(data->mlx, data->texture->exit);
 
-	mlx_resize_image(image->walls, 50, 50);
-	mlx_resize_image(image->ground, 50, 50);
-	mlx_resize_image(image->collectible, 50, 50);
-	mlx_resize_image(image->exit, 50, 50);
+	mlx_resize_image(data->image->walls, 50, 50);
+	mlx_resize_image(data->image->ground, 50, 50);
+	// mlx_resize_image(data->image->collectible, 50, 50);
+	// mlx_resize_image(data->image->exit, 50, 50);
 }
 
-void	put_image(mlx_t *mlx, image_p *image, char **map)
+void	put_image(gameplay *data)
 {
 	int i;
 	int j;
@@ -39,36 +39,36 @@ void	put_image(mlx_t *mlx, image_p *image, char **map)
 	count[0] = 0;
 	count[1] = 0;
 	i = 0;
-	while (map[i])
+	while (data->map[i])
 	{
 		j = 0;
-		while (map[i][j])
+		while (data->map[i][j])
 		{
-			if (map[i][j] == '1')
+			if (data->map[i][j] == '1')
 			{
-				mlx_image_to_window(mlx, image->walls, count[0], count[1]);
+				mlx_image_to_window(data->mlx, data->image->walls, count[0], count[1]);
 				count[0] += 50;
 			}
-			else if (map[i][j] == '0')
+			else if (data->map[i][j] == '0')
 			{
-				mlx_image_to_window(mlx, image->ground, count[0], count[1]);
+				mlx_image_to_window(data->mlx, data->image->ground, count[0], count[1]);
 				count[0] += 50;
 			}
-			else if (map[i][j] == 'C')
+			else if (data->map[i][j] == 'C')
 			{
-				mlx_image_to_window(mlx, image->ground, count[0], count[1]);
-				mlx_image_to_window(mlx, image->collectible, count[0], count[1]);
+				mlx_image_to_window(data->mlx, data->image->ground, count[0], count[1]);
+				// mlx_image_to_window(mlx, image->collectible, count[0], count[1]);
 				count[0] += 50;
 			}
-			else if (map[i][j] == 'E')
+			else if (data->map[i][j] == 'E')
 			{
-				mlx_image_to_window(mlx, image->ground, count[0], count[1]);
-				mlx_image_to_window(mlx, image->exit, count[0], count[1]);
+				mlx_image_to_window(data->mlx, data->image->ground, count[0], count[1]);
+				// mlx_image_to_window(mlx, image->exit, count[0], count[1]);
 				count[0] += 50;
 			}
-			if (map[i][j] == 'P')
+			if (data->map[i][j] == 'P')
 			{
-				mlx_image_to_window(mlx, image->ground, count[0], count[1]);
+				mlx_image_to_window(data->mlx, data->image->ground, count[0], count[1]);
 				// mlx_image_to_window(mlx, image->player, count[0], count[1]);
 				count[0] += 50;
 			}
@@ -80,7 +80,38 @@ void	put_image(mlx_t *mlx, image_p *image, char **map)
 	}
 }
 
-// void initialize_player(texture, image, mlx)
+void initialize_player(gameplay *data, mlx_t *mlx)
+{
+	animation_l	*obj;
+	animation_l	*temp;
+	animation_l	*temp2;
+
+	obj = data->player;
+	temp = obj;
+	temp->texture = mlx_load_png("Textures/Vampire/Vampire1.png");
+	temp->image = mlx_texture_to_image(mlx, temp->texture);
+	mlx_resize_image(temp->image, 50, 50);
+	temp = malloc(1*sizeof(animation_l));
+	obj->next = temp;
+	temp->texture = mlx_load_png("Textures/Vampire/Vampire2.png");
+	temp->image = mlx_texture_to_image(mlx, temp->texture);
+	mlx_resize_image(temp->image, 50, 50);
+	temp2 = malloc(1*sizeof(animation_l));
+	temp->next = temp2;
+	temp = temp->next;
+	temp->texture = mlx_load_png("Textures/Vampire/Vampire3.png");
+	temp->image = mlx_texture_to_image(mlx, temp->texture);
+	mlx_resize_image(temp->image, 50, 50);
+	temp2 = malloc(1*sizeof(animation_l));
+	temp->next = temp2;
+	temp = temp->next;
+	temp->texture = mlx_load_png("Textures/Vampire/Vampire4.png");
+	temp->image = mlx_texture_to_image(mlx, temp->texture);
+	mlx_resize_image(temp->image, 50, 50);
+	temp->next = obj;
+}
+
+// void image_to_window(mlx_t *mlx, mlx_image_t *image, int pos_x, int pos_y)
 // {
-	
+// 	mlx_image_to_window(mlx, image, pos_x, pos_y);
 // }

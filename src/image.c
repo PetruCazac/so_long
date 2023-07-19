@@ -21,36 +21,49 @@
 // // }
 
 
-// void	hook(mlx_t *param)
-// {
-// 	static int time;
-	
-// 	time = 0;
-// 	time += param->delta_time;
-// 	if (time > 1000);
-// 	{
-// 		next_image();
-// 	}
-// 	//next frame
-// }
+void	hook(void *param)
+{
+	static int time;
+	gameplay	*data;
+
+	data = (gameplay*) param;
+	time = 0;
+	time ++;
+	// ft_printf("here2");
+	if (time > 1000)
+	{
+		mlx_image_to_window(data->mlx, data->player->image, 300, 300);
+		mlx_set_instance_depth(data->player->image->instances, 10);
+
+		data->player = data->player->next;
+	}
+	// ft_printf("here3");
+	//next frame
+}
 
 void	init_image(mlx_t *mlx, char **map)
 {
-	// image_p		*image;
-	// texture_p	*texture;
 	gameplay	*data;
 
 	
 	data = malloc(1*sizeof(gameplay));
 	data->texture = malloc(1*sizeof(texture_p));
 	data->image = malloc(1*sizeof(image_p));
-	
-	initialize(mlx, data->image, data->texture);
-	put_image(mlx, data->image, map);
-	// initialize_player(data->texture, data->image, mlx);
+	data->player = malloc(1*sizeof(animation_l));
+	data->map = map;
+	data->mlx = mlx;
+	initialize(data);
+	put_image(data);
+	initialize_player(data, mlx);
+	// ft_printf("here1");
 	// mlx_key_hook(mlx, keypress, NULL);
 	// mlx_key_hook(mlx,&hook,(void*)mlx));
-	// mlx_loop_hook(mlx, &hook, data->image);
+	if (!mlx_loop_hook(mlx, &hook, (void *) data))
+	{
+		perror("Not Working");
+		exit(errno);
+	}
+	// ft_printf("here4");
 	mlx_loop(mlx);
 	return ;
 }

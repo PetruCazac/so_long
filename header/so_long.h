@@ -34,10 +34,11 @@ typedef struct	element_list
 	int					position_y;
 	int					score;
 	int					collectibles;
+	char				**map;
 	mlx_t				*mlx;
-	struct image_l		*player;
-	struct image_l		*collectible;
-	struct image_l		*exit;
+	struct animation_list		*player;
+	struct animation_list		*collectible;
+	struct animation_list		*exit;
 	struct texture_pointers	*texture;
 	struct image_pointers	*image;
 }				gameplay;
@@ -54,30 +55,32 @@ typedef	struct texture_pointers
 {
 	mlx_texture_t	*walls;
 	mlx_texture_t	*ground;
-	mlx_texture_t	*exit;
-	mlx_texture_t	*collectible;
+	// mlx_texture_t	*exit;
+	// mlx_texture_t	*collectible;
 }				texture_p;
 
 typedef	struct image_pointers
 {
 	mlx_image_t	*walls;
 	mlx_image_t	*ground;
-	mlx_image_t	*exit;
-	mlx_image_t	*collectible;
-	mlx_image_t	*player;
+	// mlx_image_t	*exit;
+	// mlx_image_t	*collectible;
+	// mlx_image_t	*player;
 }				image_p;
 
-typedef struct	texture_list
+typedef struct	animation_list
 {
-	struct texture_list	*next;
-	mlx_texture_t		*texture;
-}				texture_l;
+	struct animation_list	*next;
+	mlx_texture_t			*texture;
+	mlx_image_t				*image;
+	int						pos_x;
+	int						pos_y;
+}				animation_l;
 
-typedef struct	image_list
-{
-	struct image_list	*next;
-	mlx_image_t			*image;
-}				image_l;
+// typedef struct	image_list
+// {
+// 	struct image_list	*next;
+// }				image_l;
 
 int		check_all(int argc);
 char	**parser(char *file);
@@ -86,7 +89,9 @@ void	find_path(char **map);
 char 	**copymap(char **map);
 void	free_array(char **arr);
 void	init_image(mlx_t *mlx, char **map);
-void	initialize(mlx_t *mlx, image_p *image, texture_p *texture);
-void	put_image(mlx_t *mlx, image_p *image, char **map);
+void	initialize(gameplay *data);
+void	put_image(gameplay *data);
+void	initialize_player(gameplay *data, mlx_t *mlx);
+void	image_to_window(mlx_t mlx, mlx_image_t image, int pos_x, int pos_y);
 
 #endif
