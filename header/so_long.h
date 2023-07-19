@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:00:28 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/18 17:59:13 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/19 17:58:40 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,19 @@
 
 typedef struct	element_list
 {
-	int				coordinate[2];
-}				player;
+	int					height;
+	int					width;
+	int					position_x;
+	int					position_y;
+	int					score;
+	int					collectibles;
+	mlx_t				*mlx;
+	struct image_l		*player;
+	struct image_l		*collectible;
+	struct image_l		*exit;
+	struct texture_pointers	*texture;
+	struct image_pointers	*image;
+}				gameplay;
 
 typedef	struct	background_textures
 {
@@ -41,20 +52,32 @@ typedef	struct	background_textures
 
 typedef	struct texture_pointers
 {
-	mlx_texture_t	*t_walls;
-	mlx_texture_t	*t_ground;
-	mlx_texture_t	*t_exit;
-	mlx_texture_t	*t_collectible;
+	mlx_texture_t	*walls;
+	mlx_texture_t	*ground;
+	mlx_texture_t	*exit;
+	mlx_texture_t	*collectible;
 }				texture_p;
 
 typedef	struct image_pointers
 {
-	mlx_image_t	*i_walls;
-	mlx_image_t	*i_ground;
-	mlx_image_t	*i_exit;
-	mlx_image_t	*i_collectible;
+	mlx_image_t	*walls;
+	mlx_image_t	*ground;
+	mlx_image_t	*exit;
+	mlx_image_t	*collectible;
+	mlx_image_t	*player;
 }				image_p;
 
+typedef struct	texture_list
+{
+	struct texture_list	*next;
+	mlx_texture_t		*texture;
+}				texture_l;
+
+typedef struct	image_list
+{
+	struct image_list	*next;
+	mlx_image_t			*image;
+}				image_l;
 
 int		check_all(int argc);
 char	**parser(char *file);
@@ -62,5 +85,8 @@ void	purge(char **map);
 void	find_path(char **map);
 char 	**copymap(char **map);
 void	free_array(char **arr);
+void	init_image(mlx_t *mlx, char **map);
+void	initialize(mlx_t *mlx, image_p *image, texture_p *texture);
+void	put_image(mlx_t *mlx, image_p *image, char **map);
 
 #endif

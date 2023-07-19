@@ -6,7 +6,7 @@
 #    By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/10 10:01:48 by pcazac            #+#    #+#              #
-#    Updated: 2023/07/18 14:11:32 by pcazac           ###   ########.fr        #
+#    Updated: 2023/07/19 16:49:16 by pcazac           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ endif
 
 VPATH = src/ ; obj/ ; src_bonus/ ;
 
-SRC = so_long.c init_check.c parser.c utils.c pathfinding.c
+SRC = so_long.c init_check.c parser.c utils.c pathfinding.c image.c initialize.c
 OBJ = $(SRC:%.c=$(OBJ_PATH)/%.o)
 OBJ_PATH = obj
 
@@ -44,8 +44,8 @@ CFLAGS= -g -Wall -Wextra -Werror -Wunreachable-code -Ofast -DEBUG=1
 
 all: libmlx $(NAME) 
 
-libmlx:
-	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+# libmlx:
+# 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
 $(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB_PATH) $(LIBRARY) $(MINILIBX) $(MLX) $(MLX_PATH)
