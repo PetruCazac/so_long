@@ -12,7 +12,7 @@
 
 #include "../header/so_long.h"
 
-void	get_position(animation_l *obj, char ** map, char element)
+void	get_position(char **map, char element, gameplay *data)
 {
 	int i;
 	int j;
@@ -25,8 +25,8 @@ void	get_position(animation_l *obj, char ** map, char element)
 		{
 			if (map[i][j] == element)
 			{
-				obj->pos_x = j * 50;
-				obj->pos_y = i * 50;
+				data->position_x = j * I_SIZE;
+				data->position_y = i * I_SIZE;
 			}
 		}
 	}
@@ -51,16 +51,12 @@ void initialize_player(gameplay *data)
 	int			i;
 	char		**path;
 
-	get_position(data->player, data->map, 'P');
+	get_position(data->map, 'P', data);
 	path = get_player_path();
-	data->player->texture = mlx_load_png(path[0]);
-	data->player->image = mlx_texture_to_image(data->mlx, data->player->texture);
-	mlx_resize_image(data->player->image, I_SIZE, I_SIZE);
-	data->player->next = data->player;
 	i = 0;
-	while (path[i])
+	while (path[i] && path[i][0] != '\0')
 	{
-		if (new_image(add_image(data, path[i]), data->player) == 1)
+		if (new_image(add_image(data, path[i]), data->player, data) == 1)
 			return ; // free everything
 		i++;
 	}

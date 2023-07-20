@@ -33,16 +33,12 @@ void initialize_exit(gameplay *data)
 	int			i;
 	char		**path;
 
-	get_position(data->exit, data->map, 'E');
+	get_position(data->map, 'E', data);
 	path = get_exit_path();
-	data->exit->texture = mlx_load_png(path[0]);
-	data->exit->image = mlx_texture_to_image(data->mlx, data->exit->texture);
-	mlx_resize_image(data->exit->image, I_SIZE, I_SIZE);
-	data->exit->next = data->exit;
-	i = 1;
+	i = 0;
 	while (path[i][0] != '\0')
 	{
-		if (new_image(add_image(data, path[i]), data->exit) == 1)
+		if (new_image(add_image(data, path[i]), data->exit, data) == 1)
 			return ; // free everything
 		i++;
 	}

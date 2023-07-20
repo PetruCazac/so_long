@@ -25,7 +25,7 @@ animation_l	*add_image(gameplay *data, char *path)
 	return (temp);
 }
 
-int	new_image(animation_l *node, animation_l *obj)
+int	new_image(animation_l *node, animation_l *obj, gameplay *data)
 {
 	animation_l	*temp;
 
@@ -38,8 +38,8 @@ int	new_image(animation_l *node, animation_l *obj)
 			temp = temp->next;
 		temp->next = node;
 		node->previous = temp;
-		node->pos_x = temp->pos_x;
-		node->pos_y = temp->pos_y;
+		node->pos_x = data->position_x;
+		node->pos_y = data->position_y;
 		node->next = obj;
 		obj->previous = node;
 	}
@@ -48,6 +48,8 @@ int	new_image(animation_l *node, animation_l *obj)
 		obj = node;
 		node->previous = obj;
 		node->next = obj;
+		node->pos_x = data->position_x;
+		node->pos_y = data->position_y;
 	}
 	return (0);
 }
@@ -61,17 +63,16 @@ gameplay	*initialize_data(char **map, mlx_t *mlx)
 		exit(errno); // Free everyhting!!!
 	data->height = ft_strlen_arr(map);
 	data->width = ft_strlen(map[0]);
+	data->position_x = 0;
+	data->position_y = 0;
+	data->score = 0;
+	data->collectibles = 0;
 	data->time = 0;
-	data->texture = NULL;
-	data->image = NULL;
 	data->player = NULL;
 	data->collectible = NULL;
 	data->exit = NULL;
-	// data->texture = ft_calloc(1, sizeof(texture_p));
-	// data->image = ft_calloc(1, sizeof(image_p));
-	// data->player = ft_calloc(1, sizeof(animation_l));
-	// data->collectible = ft_calloc(1, sizeof(animation_l));
-	// data->exit = ft_calloc(1, sizeof(animation_l));
+	data->texture = ft_calloc(1, sizeof(texture_p));
+	data->image = ft_calloc(1, sizeof(image_p));
 	data->map = map;
 	data->mlx = mlx;
 	data->c_pos = NULL;
