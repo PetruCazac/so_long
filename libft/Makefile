@@ -6,7 +6,7 @@
 #    By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/15 08:56:05 by pcazac            #+#    #+#              #
-#    Updated: 2023/06/21 11:13:11 by pcazac           ###   ########.fr        #
+#    Updated: 2023/07/20 16:35:08 by pcazac           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRC := ft_isprint.c ft_putendl_fd.c ft_strlcat.c ft_substr.c \
 	ft_printf.c ft_printf_utils.c ft_strcmp.c\
 	ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c \
 	ft_lstdelone.c ft_lstiter.c ft_lstlast.c \
-	ft_lstmap.c ft_lstnew.c ft_lstsize.c \
+	ft_lstmap.c ft_lstnew.c ft_lstsize.c ft_strlen_arr.c\
 	get_next_line.c get_next_line_utils.c ft_dlstadd_back.c \
 	ft_dlstclear.c ft_dlstdelone.c ft_dlstnew.c \
 

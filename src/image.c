@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:02:13 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/19 18:00:08 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/20 17:25:18 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,50 +18,35 @@ void keypress(mlx_key_data_t keydata, void* param)
 
 	data = (gameplay*) param;
 	if (keydata.key == 87 && keydata.action == 2)
-	{
-		
-	}
-}
-
-void	hook(void *param)
-{
-	gameplay	*data;
-
-	data = (gameplay*) param;
-	data->time ++;
-	if (data->time > 6)
-	{
-		mlx_image_to_window(data->mlx, data->player->image, data->player->pos_x, data->player->pos_y);
-		mlx_set_instance_depth(data->player->image->instances, 10);
-		data->player = data->player->next;
-		data->time = 0;
-	}
-	//next frame
+		data->player->image->instances[0].y -= 10;
+		// data->player->pos_y -= 10;
+	if (keydata.key == 68 && keydata.action == 2)
+		// data->player->pos_x += 10;
+		data->player->image->instances[0].x += 10;
+	if (keydata.key == 83 && keydata.action == 2)
+		// data->player->pos_y += 10;
+		data->player->image->instances[0].y += 10;
+	if (keydata.key == 65 && keydata.action == 2)
+		// data->player->pos_x -= 10;
+		data->player->image->instances[0].x -= 10;
+	
 }
 
 void	init_image(mlx_t *mlx, char **map)
 {
 	gameplay	*data;
 	
-	data = malloc(1*sizeof(gameplay));
-	data->texture = malloc(1*sizeof(texture_p));
-	data->image = malloc(1*sizeof(image_p));
-	data->player = malloc(1*sizeof(animation_l));
-	data->map = map;
-	data->mlx = mlx;
-	initialize(data);
-	put_image(data);
-	initialize_player(data, mlx);
-	// ft_printf("here1");
+	data = initialize_data(map, mlx);
+	initialize_background(data);
+	put_background(data);
+	initialize_player(data);
+		ft_printf("here1\n");
+	initialize_collectible(data);
+	initialize_exit(data);
 	mlx_key_hook(mlx, keypress, data);
-	// mlx_key_hook(mlx,&hook,(void*)mlx));
-	data->time = 0;
-	if (!mlx_loop_hook(mlx, &hook, (void *) data))
-	{
-		perror("Not Working");
-		exit(errno);
-	}
-	// ft_printf("here4");
+	mlx_loop_hook(mlx, &player_hook, (void *) data);
+	mlx_loop_hook(mlx, &exit_hook, (void *) data);
+	mlx_loop_hook(mlx, &collectible_hook, (void *) data);
 	mlx_loop(mlx);
 	return ;
 }

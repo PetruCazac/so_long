@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:55:38 by pcazac            #+#    #+#             */
-/*   Updated: 2023/06/19 14:24:57 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/20 16:32:54 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int		ft_isalnum( int i);
 int		ft_isascii(int a);
 int		ft_isprint(int c);
 size_t	ft_strlen(const char *c);
+int		ft_strlen_arr(char **s);
 void	ft_bzero(void *c, size_t n);
 void	*ft_memset(void *b, int c, size_t len);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
@@ -107,5 +108,4 @@ int		ft_strlen_pf(const char *c);
 int		ft_putchar_pf(char c, int *counter);
 int		putbase_pf(size_t input, char *base, size_t b_len, int *count);
 int		ft_strcmp(const char *s1, const char *s2);
-
 #endif
