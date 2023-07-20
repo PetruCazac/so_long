@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:02:13 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/20 17:25:18 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/20 17:57:59 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,11 @@ void keypress(mlx_key_data_t keydata, void* param)
 	data = (gameplay*) param;
 	if (keydata.key == 87 && keydata.action == 2)
 		data->player->image->instances[0].y -= 10;
-		// data->player->pos_y -= 10;
 	if (keydata.key == 68 && keydata.action == 2)
-		// data->player->pos_x += 10;
 		data->player->image->instances[0].x += 10;
 	if (keydata.key == 83 && keydata.action == 2)
-		// data->player->pos_y += 10;
 		data->player->image->instances[0].y += 10;
 	if (keydata.key == 65 && keydata.action == 2)
-		// data->player->pos_x -= 10;
 		data->player->image->instances[0].x -= 10;
 	
 }

@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:31:06 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/20 17:24:56 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/20 17:53:09 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void initialize_player(gameplay *data)
 	mlx_resize_image(data->player->image, I_SIZE, I_SIZE);
 	data->player->next = data->player;
 	i = 0;
-	while (path[i][0] != '\0')
+	while (path[i])
 	{
 		if (new_image(add_image(data, path[i]), data->player) == 1)
 			return ; // free everything
