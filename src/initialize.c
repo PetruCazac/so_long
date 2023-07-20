@@ -69,6 +69,8 @@ void	put_image(gameplay *data)
 			if (data->map[i][j] == 'P')
 			{
 				mlx_image_to_window(data->mlx, data->image->ground, count[0], count[1]);
+				data->player->pos_x = count[0];
+				data->player->pos_y = count[1];
 				// mlx_image_to_window(mlx, image->player, count[0], count[1]);
 				count[0] += 50;
 			}
@@ -93,17 +95,23 @@ void initialize_player(gameplay *data, mlx_t *mlx)
 	mlx_resize_image(temp->image, 50, 50);
 	temp = malloc(1*sizeof(animation_l));
 	obj->next = temp;
+	temp->pos_x = obj->pos_x;
+	temp->pos_y = obj->pos_y;
 	temp->texture = mlx_load_png("Textures/Vampire/Vampire2.png");
 	temp->image = mlx_texture_to_image(mlx, temp->texture);
 	mlx_resize_image(temp->image, 50, 50);
 	temp2 = malloc(1*sizeof(animation_l));
 	temp->next = temp2;
+	temp2->pos_x = temp->pos_x;
+	temp2->pos_y = temp->pos_y;
 	temp = temp->next;
 	temp->texture = mlx_load_png("Textures/Vampire/Vampire3.png");
 	temp->image = mlx_texture_to_image(mlx, temp->texture);
 	mlx_resize_image(temp->image, 50, 50);
 	temp2 = malloc(1*sizeof(animation_l));
 	temp->next = temp2;
+	temp2->pos_x = temp->pos_x;
+	temp2->pos_y = temp->pos_y;
 	temp = temp->next;
 	temp->texture = mlx_load_png("Textures/Vampire/Vampire4.png");
 	temp->image = mlx_texture_to_image(mlx, temp->texture);

@@ -12,39 +12,36 @@
 
 #include "../header/so_long.h"
 
-// // void keypress(mlx_key_data_t keydata, void* param)
-// // {
-// // 	if (keydata.key == 87 && keydata.action == 2)
-// // 	{
-		
-// // 	}
-// // }
-
-
-void	hook(void *param)
+void keypress(mlx_key_data_t keydata, void* param)
 {
-	static int time;
 	gameplay	*data;
 
 	data = (gameplay*) param;
-	time = 0;
-	time ++;
-	// ft_printf("here2");
-	if (time > 1000)
+	if (keydata.key == 87 && keydata.action == 2)
 	{
-		mlx_image_to_window(data->mlx, data->player->image, 300, 300);
-		mlx_set_instance_depth(data->player->image->instances, 10);
-
-		data->player = data->player->next;
+		
 	}
-	// ft_printf("here3");
+}
+
+void	hook(void *param)
+{
+	gameplay	*data;
+
+	data = (gameplay*) param;
+	data->time ++;
+	if (data->time > 6)
+	{
+		mlx_image_to_window(data->mlx, data->player->image, data->player->pos_x, data->player->pos_y);
+		mlx_set_instance_depth(data->player->image->instances, 10);
+		data->player = data->player->next;
+		data->time = 0;
+	}
 	//next frame
 }
 
 void	init_image(mlx_t *mlx, char **map)
 {
 	gameplay	*data;
-
 	
 	data = malloc(1*sizeof(gameplay));
 	data->texture = malloc(1*sizeof(texture_p));
@@ -56,8 +53,9 @@ void	init_image(mlx_t *mlx, char **map)
 	put_image(data);
 	initialize_player(data, mlx);
 	// ft_printf("here1");
-	// mlx_key_hook(mlx, keypress, NULL);
+	mlx_key_hook(mlx, keypress, data);
 	// mlx_key_hook(mlx,&hook,(void*)mlx));
+	data->time = 0;
 	if (!mlx_loop_hook(mlx, &hook, (void *) data))
 	{
 		perror("Not Working");

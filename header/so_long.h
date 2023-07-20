@@ -34,6 +34,7 @@ typedef struct	element_list
 	int					position_y;
 	int					score;
 	int					collectibles;
+	int					time;
 	char				**map;
 	mlx_t				*mlx;
 	struct animation_list		*player;
