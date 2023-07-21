@@ -34,8 +34,10 @@ int	new_image(animation_l *node, animation_l *obj, gameplay *data)
 		// All the memory has to be freed!!!
 	if (obj != NULL)
 	{	temp = obj;
-		while (temp->next != obj)
+		while (temp->next != obj && temp->next != NULL)
+		{
 			temp = temp->next;
+		}
 		temp->next = node;
 		node->previous = temp;
 		node->pos_x = data->position_x;
@@ -66,7 +68,7 @@ gameplay	*initialize_data(char **map, mlx_t *mlx)
 	data->position_x = 0;
 	data->position_y = 0;
 	data->score = 0;
-	data->collectibles = 0;
+	data->c_count = 0;
 	data->time = 0;
 	data->player = NULL;
 	data->collectible = NULL;

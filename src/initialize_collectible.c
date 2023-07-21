@@ -12,29 +12,32 @@
 
 #include "../header/so_long.h"
 
-int	new_cimage(animation_l *node, animation_l *obj, gameplay *data)
+int	new_cimage(animation_l *node, gameplay *data)
 {
 	animation_l	*temp;
 
 	if (node == NULL)
 		exit(errno);
 		// All the memory has to be freed!!!
-	if (obj != NULL)
-	{	temp = obj;
-		while (temp->next != obj)
+	if (data->collectible != NULL)
+	{
+		temp = data->collectible;
+		while (temp->next != data->collectible && temp->next != NULL)
+		{
 			temp = temp->next;
+		}
 		temp->next = node;
 		node->previous = temp;
+		node->next = data->collectible;
 		node->pos_x = data->c_pos->p_x;
 		node->pos_y = data->c_pos->p_y;
-		node->next = obj;
-		obj->previous = node;
+		data->collectible->previous = node;
 	}
 	else
 	{
-		obj = node;
-		node->previous = obj;
-		node->next = obj;
+		data->collectible = node;
+		node->previous = data->collectible;
+		node->next = data->collectible;
 		node->pos_x = data->c_pos->p_x;
 		node->pos_y = data->c_pos->p_y;
 	}
@@ -64,23 +67,38 @@ void	new_pos(int y, int x, gameplay *data)
 	c_position_l	*temp2;
 
 	temp2 = data->c_pos;
+	ft_printf("pointer %p\n", data->c_pos);
 	ft_printf("New node :i = %i, j = %i\n", y, x);
 	temp = ft_calloc(1, sizeof(c_position_l));
 	if (temp == NULL)
+	{
+		ft_printf("Malloc Error");
 		exit(errno);
+	}
 	if (temp2 == NULL)
 	{
-		temp2 = temp;
+		data->c_pos = temp;
 		temp->p_x = x * I_SIZE;
 		temp->p_y = y * I_SIZE;
+		temp->next = NULL;
 		return ;
 	}
-	while (temp2 != NULL)
-		temp2 = temp2->next;
-	temp2->next = temp;
-	temp->p_x = x * I_SIZE;
-	temp->p_y = y * I_SIZE;
-	temp->next = NULL;
+	if (temp2 != NULL)
+	{
+		while (temp2->next != NULL)
+			temp2 = temp2->next;
+		ft_printf("here2\n");
+		temp2->next = temp;
+		temp->p_x = x * I_SIZE;
+		temp->p_y = y * I_SIZE;
+		temp->next = NULL;
+	}
+	temp = data->c_pos;
+	while (temp->next)
+	{
+		ft_printf("Struct: %i, %i\n", temp->p_x, temp->p_y);
+		temp = temp->next;
+	}
 }
 
 void	get_cposition(gameplay *data, char **map, char elem)
@@ -92,20 +110,15 @@ void	get_cposition(gameplay *data, char **map, char elem)
 	while (map[i] != NULL)
 	{
 		j = 0;
-		// ft_printf("map:%s\n", map[i]);
-		// ft_printf("1i = %i\n", i);
 		while (map[i][j] != '\0')
 		{
 			if (map[i][j] == elem)
 			{
-				// ft_printf("i = %i, j = %i\n", i, j);
 				new_pos(i, j, data);
 			}
 			j++;
-			// ft_printf("j = %i\n", j);
 		}
 		i++;
-		// ft_printf("2i = %i\n", i);
 	}
 }
 
@@ -118,11 +131,11 @@ void initialize_collectible(gameplay *data)
 
 	get_cposition(data, data->map, 'C');
 	path = get_collectible_path();
-	ft_printf("here");
+	ft_printf("here3\n");
 	i = 0;
 	temp = data->c_pos;
 	temp2 = temp;
-	while (temp2->next)
+	while (temp2->next != NULL)
 	{
 		ft_printf("%i, %i\n", temp2->p_x, temp2->p_y);
 		temp2 = temp2->next;
@@ -130,12 +143,13 @@ void initialize_collectible(gameplay *data)
 	while (temp->next != NULL)
 	{
 		i = 0;
-		while (path[i] && path[i][0] != '\0')
+		while (path[i] != NULL && path[i][0] != '\0')
 		{
-			if (new_image(add_image(data, path[i]), data->collectible, data) == 1)
+			if (new_cimage(add_image(data, path[i]), data) == 1)
 				return ; // free everything
 			i++;
 		}
+		ft_printf("here4\n");
 		temp = temp->next;
 	}
 }

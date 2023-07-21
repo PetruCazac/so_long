@@ -42,7 +42,7 @@ typedef struct	element_list
 	int						position_x;
 	int						position_y;
 	int						score;
-	int						collectibles;
+	int						c_count;
 	int						time;
 	char					**map;
 	mlx_t					*mlx;
