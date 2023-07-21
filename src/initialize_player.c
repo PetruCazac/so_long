@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:31:06 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/21 18:59:14 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/21 19:06:03 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,12 @@ char	**get_player_path(void)
 {
 	char **path;
 
-	path = ft_calloc(7, sizeof(char *));
+	path = ft_calloc(5, sizeof(char *));
 	path[0] = ft_strdup("Textures/Vampire/Vampire1.png");
 	path[1] = ft_strdup("Textures/Vampire/Vampire2.png");
 	path[2] = ft_strdup("Textures/Vampire/Vampire3.png");
 	path[3] = ft_strdup("Textures/Vampire/Vampire4.png");
-	path[4] = ft_strdup("Textures/Vampire/Vampire1.png");
-	path[5] = ft_strdup("Textures/Vampire/Vampire2.png");
-	path[6] = "\0";
+	path[4] = "\0";
 	return (path);
 }
 
@@ -67,18 +65,17 @@ void	player_static_hook(void *param)
 {
 	t_game				*data;
 	static mlx_image_t	*image_p;
-	mlx_image_t			*image_temp;
 
 	data = (t_game*) param;
 	// data->time++;
 	if (data->time > 5)
 	{
-		image_temp = image_p;
+		if(image_p != NULL)
+			mlx_delete_image(data->mlx, image_p);
 		image_p = mlx_texture_to_image(data->mlx, data->player->texture);
 		mlx_resize_image(image_p, I_SIZE, I_SIZE);
 		mlx_image_to_window(data->mlx, image_p, data->p_x, data->p_y);
-		if(image_temp != NULL)
-			mlx_delete_image(data->mlx, image_temp);
+		mlx_set_instance_depth(image_p->instances, 250);
 		data->player = data->player->next;
 		data->time = 0;
 	}
@@ -96,6 +93,7 @@ void	player_moving_hook(void *param)
 	image_p = mlx_texture_to_image(data->mlx, data->player->texture);
 	mlx_resize_image(image_p, I_SIZE, I_SIZE);
 	mlx_image_to_window(data->mlx, image_p, data->p_x, data->p_y);
+// 		// mlx_set_instance_depth(data->player->image->instances, 250);
 }
 
 
@@ -120,7 +118,6 @@ void	player_moving_hook(void *param)
 // 	{
 
 // 		mlx_image_to_window(data->mlx, data->player->image, data->player->p_x, data->player->p_y);
-// 		// mlx_set_instance_depth(data->player->image->instances, 250);
 // 		data->player = data->player->next;
 // 	}
 // 	mlx_key_hook(data->mlx, keypress, data);
