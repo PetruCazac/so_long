@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:00:05 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/20 12:01:56 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/21 15:03:20 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ char **parser(char *file)
 	if (fd < 0) 
 	{
 		errno = 1;
-		perror("OPEN ERROR");
+		perror("OPEN ERROR here");
 		exit(errno);
 	}
 	matrix = get_matrix(fd, 0);

@@ -6,11 +6,31 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:31:06 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/20 16:13:44 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/21 18:52:22 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/so_long.h"
+
+void	get_exit_position(char **map, t_game *data)
+{
+	int i;
+	int j;
+
+	i = -1;
+	while (map[++i])
+	{
+		j = -1;
+		while (map[i][++j])
+		{
+			if (map[i][j] == 'E')
+			{
+				data->e_x = j * I_SIZE;
+				data->e_y = i * I_SIZE;
+			}
+		}
+	}
+}
 
 char	**get_exit_path(void)
 {
@@ -28,17 +48,17 @@ char	**get_exit_path(void)
 }
 
 
-void initialize_exit(gameplay *data)
+void initialize_exit(t_game *data)
 {
 	int			i;
 	char		**path;
 
-	get_position(data->map, 'E', data);
+	get_exit_position(data->map, data);
 	path = get_exit_path();
 	i = 0;
 	while (path[i][0] != '\0')
 	{
-		if (new_image(add_image(data, path[i]), data->exit, data) == 1)
+		if (add_texture(new_texture(path[i]), &(data->exit)) == 1)
 			return ; // free everything
 		i++;
 	}
@@ -46,16 +66,20 @@ void initialize_exit(gameplay *data)
 
 void	exit_hook(void *param)
 {
-	gameplay	*data;
+	t_game				*data;
+	static mlx_image_t	*image_p;
 
-	data = (gameplay*) param;
+	data = (t_game*) param;
+	data->time++;
 	if (data->time > 5)
 	{
-		data->exit->image->enabled = 1;
-		data->exit->previous->image->enabled = 0;
-		mlx_image_to_window(data->mlx, data->exit->image, data->exit->pos_x, data->exit->pos_y);
-		// mlx_set_instance_depth(data->exit->image->instances, );
+		if(image_p != NULL)
+			mlx_delete_image(data->mlx, image_p);
+		image_p = mlx_texture_to_image(data->mlx, data->exit->texture);
+		mlx_resize_image(image_p, I_SIZE, I_SIZE);
+		mlx_image_to_window(data->mlx, image_p, data->e_x, data->e_y);
 		data->exit = data->exit->next;
+		// data->time = 0;
 	}
 	//next frame
 }

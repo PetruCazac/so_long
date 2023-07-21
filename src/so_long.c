@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 10:10:40 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/20 17:21:54 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/21 09:31:48 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int argc, char *argv[])
 	check_all(argc);
 	map = parser(argv[1]);
 	find_path(map);
-	mlx = mlx_init(ft_strlen(map[0]), ft_strlen_arr(map), "GAME", 1);
+	mlx = mlx_init(ft_strlen(map[0]) * I_SIZE, ft_strlen_arr(map) * I_SIZE, "GAME", 1);
 	if (mlx == NULL)
 		exit(EXIT_FAILURE);
 	else

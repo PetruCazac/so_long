@@ -6,23 +6,23 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:30:27 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/20 16:17:24 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/21 09:23:25 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/so_long.h"
 
-void initialize_background(gameplay *data)
+void initialize_background(t_game *data)
 {
-	data->texture->walls = mlx_load_png("Textures/Tile_Textures/Grass1.png");
-	data->texture->ground = mlx_load_png("Textures/Tile_Textures/Walls.png");
-	data->image->walls = mlx_texture_to_image(data->mlx, data->texture->walls);
-	data->image->ground = mlx_texture_to_image(data->mlx, data->texture->ground);
-	mlx_resize_image(data->image->walls, I_SIZE, I_SIZE);
-	mlx_resize_image(data->image->ground, I_SIZE, I_SIZE);
+	data->texture.walls = mlx_load_png("Textures/Tile_Textures/Grass1.png");
+	data->texture.ground = mlx_load_png("Textures/Tile_Textures/Walls.png");
+	data->image.walls = mlx_texture_to_image(data->mlx, data->texture.walls);
+	data->image.ground = mlx_texture_to_image(data->mlx, data->texture.ground);
+	mlx_resize_image(data->image.walls, I_SIZE, I_SIZE);
+	mlx_resize_image(data->image.ground, I_SIZE, I_SIZE);
 }
 
-void	put_background(gameplay *data)
+void	put_background(t_game *data)
 {
 	int i;
 	int j;
@@ -34,15 +34,15 @@ void	put_background(gameplay *data)
 		while (data->map[i][j])
 		{
 			if (data->map[i][j] == '1')
-				mlx_image_to_window(data->mlx, data->image->walls, j * I_SIZE, i * I_SIZE);
+				mlx_image_to_window(data->mlx, data->image.walls, j * I_SIZE, i * I_SIZE);
 			else if (data->map[i][j] == '0')
-				mlx_image_to_window(data->mlx, data->image->ground, j * I_SIZE, i * I_SIZE);
+				mlx_image_to_window(data->mlx, data->image.ground, j * I_SIZE, i * I_SIZE);
 			else if (data->map[i][j] == 'C')
-				mlx_image_to_window(data->mlx, data->image->ground, j * I_SIZE, i * I_SIZE);
+				mlx_image_to_window(data->mlx, data->image.ground, j * I_SIZE, i * I_SIZE);
 			else if (data->map[i][j] == 'E')
-				mlx_image_to_window(data->mlx, data->image->ground, j * I_SIZE, i * I_SIZE);
+				mlx_image_to_window(data->mlx, data->image.ground, j * I_SIZE, i * I_SIZE);
 			else if (data->map[i][j] == 'P')
-				mlx_image_to_window(data->mlx, data->image->ground, j * I_SIZE, i * I_SIZE);
+				mlx_image_to_window(data->mlx, data->image.ground, j * I_SIZE, i * I_SIZE);
 			j++;
 		}
 		i++;

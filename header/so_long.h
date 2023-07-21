@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:00:28 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/20 17:16:28 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/21 18:43:47 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,56 +24,61 @@
 #include "../MLX42/include/MLX42/MLX42.h"
 
 #define I_SIZE 100
+#define KEY_UP 87
+#define KEY_DOWN 83
+#define KEY_LEFT 65
+#define KEY_RIGHT 83
 
-typedef struct	animation_list
+typedef struct	s_animation
 {
-	struct animation_list	*next;
-	struct animation_list	*previous;
-	mlx_texture_t			*texture;
-	mlx_image_t				*image;
-	int						pos_x;
-	int						pos_y;
-}				animation_l;
+	struct s_animation	*next;
+	struct s_animation	*end;
+	struct s_animation	*previous;
+	mlx_texture_t		*texture;
+}				t_animation;
 
-typedef struct	element_list
+typedef	struct	s_position
 {
-	int						height;
-	int						width;
-	int						position_x;
-	int						position_y;
-	int						score;
-	int						c_count;
-	int						time;
-	char					**map;
-	mlx_t					*mlx;
-	struct texture_pointers	*texture;
-	struct image_pointers	*image;
-	struct animation_list	*player;
-	struct animation_list	*collectible;
-	struct animation_list	*exit;
-	struct collectible_list	*c_pos;
-}				gameplay;
+	struct s_position	*next;
+	int					p_x;
+	int					p_y;
+}				t_position;
 
-typedef	struct	collectible_list
-{
-	struct collectible_list *next;
-	int						p_x;
-	int						p_y;
-}				c_position_l;
-
-typedef	struct texture_pointers
+typedef	struct s_texture
 {
 	mlx_texture_t	*walls;
 	mlx_texture_t	*ground;
 
-}				texture_p;
+}				t_texture;
 
-typedef	struct image_pointers
+typedef	struct s_image
 {
 	mlx_image_t	*walls;
 	mlx_image_t	*ground;
 
-}				image_p;
+}				t_image;
+
+typedef struct	s_element
+{
+	int			 	height;
+	int				width;
+	int				p_x;
+	int				p_y;
+	int				e_x;
+	int				e_y;
+	int				score;
+	int				c_count;
+	int				time;
+	char			**map;
+	mlx_t			*mlx;
+	t_texture		texture;
+	t_image			image;
+	t_animation		*player;
+	t_animation		*collectible;
+	t_animation		*exit;
+	t_position		*c_pos;
+}				t_game;
+
 
 int			check_all(int argc);
 char		**parser(char *file);
@@ -82,17 +87,19 @@ void		find_path(char **map);
 char 		**copymap(char **map);
 void		free_array(char **arr);
 void		init_image(mlx_t *mlx, char **map);
-void		initialize_background(gameplay *data);
-void		put_background(gameplay *data);
-void		initialize_player(gameplay *data);
-animation_l	*add_image(gameplay *data, char *path);
-int			new_image(animation_l *node, animation_l *obj, gameplay *data);
-void		get_position(char **map, char element, gameplay *data);
+void		initialize_background(t_game *data);
+void		put_background(t_game *data);
+void		initialize_player(t_game *data);
+t_animation	*new_texture(char *path);
+int			add_texture(t_animation *node, t_animation **obj);
 void		player_hook(void *param);
 void		exit_hook(void *param);
 void		collectible_hook(void *param);
-void		initialize_collectible(gameplay *data);
-void		initialize_exit(gameplay *data);
-gameplay	*initialize_data(char **map, mlx_t *mlx);
+void		initialize_collectible(t_game *data);
+void		initialize_exit(t_game *data);
+t_game		*initialize_data(char **map, mlx_t *mlx);
+void		player_static_hook(void *param);
+void		player_moving_hook(void *param);
+void 		keypress(mlx_key_data_t keydata, void* param);
 
 #endif
