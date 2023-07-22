@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:31:06 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/21 18:52:22 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/22 20:08:57 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,29 @@ void	exit_hook(void *param)
 {
 	t_game				*data;
 	static mlx_image_t	*image_p;
+	static mlx_image_t *t;
+	char *d;
+	char *dd;
 
+	
+	data = (t_game*) param;
+	if (t)
+		mlx_delete_image(data->mlx, t);
+	dd = ft_itoa((double) 1 / data->mlx->delta_time);
+	d = ft_strjoin("FPS:", dd);
+	free(dd);
+	t = mlx_put_string(data->mlx, d, 0, 0);
+	mlx_set_instance_depth(t->instances, 249);
 	data = (t_game*) param;
 	data->time++;
-	if (data->time > 5)
+	if (data->time > ITERATIONS)
 	{
 		if(image_p != NULL)
 			mlx_delete_image(data->mlx, image_p);
 		image_p = mlx_texture_to_image(data->mlx, data->exit->texture);
-		mlx_resize_image(image_p, I_SIZE, I_SIZE);
+		mlx_resize_image(image_p, P_SIZE, P_SIZE);
 		mlx_image_to_window(data->mlx, image_p, data->e_x, data->e_y);
 		mlx_set_instance_depth(image_p->instances, 249);
 		data->exit = data->exit->next;
-		// data->time = 0;
 	}
-	//next frame
 }

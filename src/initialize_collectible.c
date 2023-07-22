@@ -6,37 +6,11 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:31:06 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/21 17:26:23 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/22 21:19:29 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/so_long.h"
-
-int	add_ctexture(t_animation *node, t_game *data)
-{
-	t_animation	*temp;
-
-	if (node == NULL)
-		exit(errno);
-		// All the memory has to be freed!!!
-	if (data->collectible != NULL)
-	{
-		temp = data->collectible;
-		while (temp->end)
-			temp = temp->next;
-		temp->next = node;
-		node->previous = temp;
-		node->next = data->collectible;
-		data->collectible->previous = node;
-	}
-	else
-	{
-		data->collectible = node;
-		node->previous = data->collectible;
-		node->next = data->collectible;
-	}
-	return (0);
-}
 
 char	**get_collectible_path(void)
 {
@@ -100,6 +74,7 @@ void	get_cposition(t_game *data, char **map, char elem)
 			if (map[i][j] == elem)
 			{
 				new_pos(i, j, data);
+				data->c_count++;
 			}
 			j++;
 		}
@@ -114,13 +89,15 @@ void initialize_collectible(t_game *data)
 
 	get_cposition(data, data->map, 'C');
 	path = get_collectible_path();
+	i = -1;
+	while (++i < data->c_count)
+		add_back_image(new_cnode(), data);
 	i = 0;
 	while (path[i] != NULL && path[i][0] != '\0')
 	{
-		if (add_ctexture(new_texture(path[i]), data) == 1)
+		if (add_texture(new_texture(path[i]), &(data->collectible)) == 1)
 			return ; // free everything
 		i++;
-	add_back_image(new_inode(). data);
 	}
 }
 
@@ -128,21 +105,30 @@ void	collectible_hook(void *param)
 {
 	t_game				*data;
 	t_position			*temp;
+	t_cimage			*img;
 
 	data = (t_game*) param;
-	temp = data->c_pos;
-	if (data->time > 4)
+	if (data->time > ITERATIONS)
 	{
-		while (temp->next)
+		img = data->c_image;
+		while (img)
 		{
-			if(image_p != NULL)
-				mlx_delete_image(data->mlx, image_p);
-			image_p = mlx_texture_to_image(data->mlx, data->collectible->texture);
-			mlx_resize_image(image_p, I_SIZE, I_SIZE);
-			mlx_image_to_window(data->mlx, image_p, data->e_x, data->e_y);
-			mlx_set_instance_depth(image_p->instances, 252);
-			data->collectible = data->collectible->next;
+			if(img->image != NULL)
+				mlx_delete_image(data->mlx, img->image);
+			img = img->next;
+		}
+		img = data->c_image;
+		temp = data->c_pos;
+		while (temp)
+		{
+			img->image = mlx_texture_to_image(data->mlx, data->collectible->texture);
+			mlx_resize_image(img->image, P_SIZE, P_SIZE);
+			mlx_image_to_window(data->mlx, img->image, temp->p_x, temp->p_y);
+			mlx_set_instance_depth(img->image->instances, 253);
+			img = img->next;
 			temp = temp->next;
 		}
+		data->time	= 0;
+		data->collectible = data->collectible->next;
 	}
 }
