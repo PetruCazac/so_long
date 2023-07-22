@@ -58,6 +58,12 @@ typedef	struct s_image
 
 }				t_image;
 
+typedef	struct s_cimage
+{
+	struct s_cimage	*next;
+	mlx_image_t		*image;
+}				t_cimage;
+
 typedef struct	s_element
 {
 	int			 	height;
@@ -77,6 +83,7 @@ typedef struct	s_element
 	t_animation		*collectible;
 	t_animation		*exit;
 	t_position		*c_pos;
+	t_cimage		*c_image;
 }				t_game;
 
 
@@ -101,5 +108,8 @@ t_game		*initialize_data(char **map, mlx_t *mlx);
 void		player_static_hook(void *param);
 void		player_moving_hook(void *param);
 void 		keypress(mlx_key_data_t keydata, void* param);
+t_cimage	*new_inode();
+void		add_back_image(t_image *img, t_game *data);
+
 
 #endif

@@ -78,6 +78,7 @@ void	exit_hook(void *param)
 		image_p = mlx_texture_to_image(data->mlx, data->exit->texture);
 		mlx_resize_image(image_p, I_SIZE, I_SIZE);
 		mlx_image_to_window(data->mlx, image_p, data->e_x, data->e_y);
+		mlx_set_instance_depth(image_p->instances, 249);
 		data->exit = data->exit->next;
 		// data->time = 0;
 	}

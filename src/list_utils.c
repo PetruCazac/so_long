@@ -31,11 +31,10 @@ int	add_texture(t_animation *node, t_animation **obj)
 		exit(errno);
 		// All the memory has to be freed!!!
 	if (*obj != NULL)
-	{	temp = *obj;
-		while (temp->next != *obj && temp->next != NULL)
-		{
+	{
+		temp = *obj;
+		while (temp->end)
 			temp = temp->next;
-		}
 		temp->next = node;
 		node->previous = temp;
 		node->next = *obj;
@@ -79,5 +78,34 @@ t_game	*initialize_data(char **map, mlx_t *mlx)
 	data->texture.ground = NULL;
 	data->image.walls = NULL;
 	data->image.ground = NULL;
+	data->c_image = NULL;
 	return (data);
+}
+
+t_cimage	*new_inode()
+{
+	t_cimage	*tmp;
+
+	tmp = malloc(sizeof(t_cimage));
+	if (tmp)
+	{
+		tmp->image = NULL;
+		tmp->next = NULL;
+	}
+	return (tmp);
+}
+
+void add_back_image(t_cimage *node, t_game *data)
+{
+	t_cimage	*temp;
+
+	if (data->c_image == NULL)
+	{
+		data->c_image = node;
+		return ;
+	}
+	temp = data->c_image;
+	while (temp->next != NULL)
+		temp = temp->next;
+	temp->next = node;
 }

@@ -22,11 +22,11 @@ void	init_image(mlx_t *mlx, char **map)
 	initialize_player(data);
 	// ft_printf("here1\n");
 	initialize_exit(data);
-	// initialize_collectible(data);
+	initialize_collectible(data);
+	mlx_loop_hook(mlx, &collectible_hook, (void *) data);
 	mlx_key_hook(mlx, keypress, data);
 	mlx_loop_hook(mlx, &exit_hook, (void *) data);
 	mlx_loop_hook(mlx, &player_static_hook, (void *) data);
-	// mlx_loop_hook(mlx, &collectible_hook, (void *) data);
 	mlx_loop(mlx);
 	return ;
 }

@@ -93,6 +93,7 @@ void	player_moving_hook(void *param)
 	image_p = mlx_texture_to_image(data->mlx, data->player->texture);
 	mlx_resize_image(image_p, I_SIZE, I_SIZE);
 	mlx_image_to_window(data->mlx, image_p, data->p_x, data->p_y);
+	mlx_set_instance_depth(image_p->instances, 250);
 // 		// mlx_set_instance_depth(data->player->image->instances, 250);
 }
 
