@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:41:03 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/22 21:09:38 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/24 16:51:01 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_game	*initialize_data(char **map, mlx_t *mlx)
 	data->player = NULL;
 	data->collectible = NULL;
 	data->exit = NULL;
-	data->c_pos = NULL;
+	// data->c_pos = NULL;
 	data->map = map;
 	data->mlx = mlx;
 	data->texture.walls = NULL;
@@ -84,7 +84,7 @@ t_game	*initialize_data(char **map, mlx_t *mlx)
 	return (data);
 }
 
-t_cimage	*new_cnode()
+t_cimage	*new_cnode(int x, int y)
 {
 	t_cimage	*tmp;
 
@@ -93,6 +93,8 @@ t_cimage	*new_cnode()
 	{
 		tmp->image =  NULL;
 		tmp->next = NULL;
+		tmp->p_x = x;
+		tmp->p_y = y;
 	}
 	return (tmp);
 }

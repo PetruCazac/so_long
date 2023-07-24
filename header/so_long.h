@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:00:28 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/22 21:27:28 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/24 16:58:43 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@
 #include "../MLX42/include/MLX42/MLX42.h"
 
 #define I_SIZE 100
-#define P_SIZE 5055
+#define P_SIZE 50
 #define ITERATIONS 7
+#define STEP 10
 
 typedef struct	s_animation
 {
@@ -60,6 +61,8 @@ typedef	struct s_cimage
 {
 	struct s_cimage		*next;
 	mlx_image_t			*image;
+	int					p_x;
+	int					p_y;
 }				t_cimage;
 
 typedef struct	s_element
@@ -81,7 +84,7 @@ typedef struct	s_element
 	t_animation		*player;
 	t_animation		*collectible;
 	t_animation		*exit;
-	t_position		*c_pos;
+	// t_position		*c_pos;
 	t_cimage		*c_image;
 	mlx_image_t		*player_img;
 }				t_game;
@@ -93,22 +96,27 @@ void		purge(char **map);
 void		find_path(char **map);
 char 		**copymap(char **map);
 void		free_array(char **arr);
-void		init_image(mlx_t *mlx, char **map);
-void		initialize_background(t_game *data);
 void		put_background(t_game *data);
-void		initialize_player(t_game *data);
 t_animation	*new_texture(char *path);
 int			add_texture(t_animation *node, t_animation **obj);
 void		player_hook(void *param);
 void		exit_hook(void *param);
 void		collectible_hook(void *param);
+void		init_image(mlx_t *mlx, char **map);
+void		initialize_background(t_game *data);
+void		initialize_player(t_game *data);
 void		initialize_collectible(t_game *data);
 void		initialize_exit(t_game *data);
 t_game		*initialize_data(char **map, mlx_t *mlx);
 void		player_static_hook(void *param);
 void		player_moving_hook(void *param);
-t_cimage	*new_cnode();
+t_cimage	*new_cnode(int x, int y);
 void		add_back_image(t_cimage *img, t_game *data);
 void 		keypress(mlx_key_data_t keydata, void* param);
+void		track_up(t_game *data);
+void		track_down(t_game *data);
+void		track_right(t_game *data);
+void		track_left(t_game *data);
+void		collect(void *data);
 
 #endif
