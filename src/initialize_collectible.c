@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:31:06 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/24 16:54:09 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/25 16:32:32 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	get_cposition(t_game *data, char **map, char elem)
 			if (map[y][x] == elem)
 			{
 				add_back_image(new_cnode(y, x), data);
-				// new_pos(y, x, data);
 				data->c_count++;
 			}
 			x++;
@@ -90,9 +89,6 @@ void initialize_collectible(t_game *data)
 
 	get_cposition(data, data->map, 'C');
 	path = get_collectible_path();
-	// i = -1;
-	// while (++i < data->c_count)
-	// 	add_back_image(new_cnode(), data);
 	i = 0;
 	while (path[i] != NULL && path[i][0] != '\0')
 	{
@@ -124,7 +120,6 @@ void	collectible_hook(void *param)
 			mlx_resize_image(temp->image, P_SIZE, P_SIZE);
 			mlx_image_to_window(data->mlx, temp->image, temp->p_x, temp->p_y);
 			mlx_set_instance_depth(temp->image->instances, 253);
-			temp = temp->next;
 			temp = temp->next;
 		}
 		data->time	= 0;

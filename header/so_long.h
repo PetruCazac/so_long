@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:00:28 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/24 16:58:43 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/25 16:12:01 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void		free_array(char **arr);
 void		put_background(t_game *data);
 t_animation	*new_texture(char *path);
 int			add_texture(t_animation *node, t_animation **obj);
-void		player_hook(void *param);
+// void		player_hook(void *param);
 void		exit_hook(void *param);
 void		collectible_hook(void *param);
 void		init_image(mlx_t *mlx, char **map);
