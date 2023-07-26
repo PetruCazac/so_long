@@ -67,7 +67,6 @@ void initialize_exit(t_game *data)
 void	exit_hook(void *param)
 {
 	t_game				*data;
-	static mlx_image_t	*image_p;
 	static mlx_image_t *t;
 	char *d;
 	char *dd;
@@ -85,12 +84,12 @@ void	exit_hook(void *param)
 	data->time++;
 	if (data->time > ITERATIONS)
 	{
-		if(image_p != NULL)
-			mlx_delete_image(data->mlx, image_p);
-		image_p = mlx_texture_to_image(data->mlx, data->exit->texture);
-		mlx_resize_image(image_p, P_SIZE, P_SIZE);
-		mlx_image_to_window(data->mlx, image_p, data->e_x, data->e_y);
-		mlx_set_instance_depth(image_p->instances, 249);
+		if(data->exit_image != NULL)
+			mlx_delete_image(data->mlx, data->exit_image);
+		data->exit_image = mlx_texture_to_image(data->mlx, data->exit->texture);
+		mlx_resize_image(data->exit_image, P_SIZE, P_SIZE);
+		mlx_image_to_window(data->mlx, data->exit_image, data->e_x, data->e_y);
+		mlx_set_instance_depth(data->exit_image->instances, 249);
 		data->exit = data->exit->next;
 	}
 }

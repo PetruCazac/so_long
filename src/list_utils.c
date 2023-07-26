@@ -80,6 +80,7 @@ t_game	*initialize_data(char **map, mlx_t *mlx)
 	data->image.ground = NULL;
 	data->c_image = NULL;
 	data->player_img = NULL;
+	data->exit_image = NULL;
 	return (data);
 }
 

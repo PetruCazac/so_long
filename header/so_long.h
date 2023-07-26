@@ -82,6 +82,7 @@ typedef struct	s_element
 	t_texture		texture;
 	t_image			image;
 	t_animation		*player;
+	mlx_image_t		*exit_image;
 	t_animation		*collectible;
 	t_animation		*exit;
 	// t_position		*c_pos;
