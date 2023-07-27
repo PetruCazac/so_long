@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:31:06 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/25 16:32:32 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/27 10:44:24 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,36 +29,17 @@ char	**get_collectible_path(void)
 	return (path);
 }
 
-// void	new_pos(int y, int x, t_game *data)
-// {
-// 	t_position	*temp;
-// 	t_position	*temp2;
+char	**get_collected_path(void)
+{
+	char **path;
 
-// 	temp = ft_calloc(1, sizeof(t_position));
-// 	if (temp == NULL)
-// 	{
-// 		ft_printf("Malloc Error");
-// 		exit(errno);
-// 	}
-// 	temp2 = data->c_pos;
-// 	if (temp2 == NULL)
-// 	{
-// 		data->c_pos = temp;
-// 		temp->p_x = x * I_SIZE;
-// 		temp->p_y = y * I_SIZE;
-// 		temp->next = NULL;
-// 		return ;
-// 	}
-// 	if (temp2 != NULL)
-// 	{
-// 		while (temp2->next != NULL)
-// 			temp2 = temp2->next;
-// 		temp2->next = temp;
-// 		temp->p_x = x * I_SIZE;
-// 		temp->p_y = y * I_SIZE;
-// 		temp->next = NULL;
-// 	}
-// }
+	path = ft_calloc(4, sizeof(char *));
+	path[0] = ft_strdup("Textures/Collectible/bat1.png");
+	path[1] = ft_strdup("Textures/Collectible/bat2.png");
+	path[2] = ft_strdup("Textures/Collectible/bat3.png");
+	path[3] = "\0";
+	return (path);
+}
 
 void	get_cposition(t_game *data, char **map, char elem)
 {
@@ -86,13 +67,22 @@ void initialize_collectible(t_game *data)
 {
 	int				i;
 	char			**path;
+	char			**path2;
 
 	get_cposition(data, data->map, 'C');
 	path = get_collectible_path();
+	path2 = get_collected_path();
 	i = 0;
 	while (path[i] != NULL && path[i][0] != '\0')
 	{
 		if (add_texture(new_texture(path[i]), &(data->collectible)) == 1)
+			return ; // free everything
+		i++;
+	}
+	i = 0; 
+	while (path2[i] != NULL && path2[i][0] != '\0')
+	{
+		if (add_texture(new_texture(path2[i]), &(data->collected)) == 1)
 			return ; // free everything
 		i++;
 	}
@@ -104,25 +94,34 @@ void	collectible_hook(void *param)
 	t_cimage			*temp;
 
 	data = (t_game*) param;
-	if (data->time > ITERATIONS)
+	if (data->time > ITERATIONS )
 	{
 		temp = data->c_image;
 		while (temp)
 		{
-			if(temp->image != NULL)
-				mlx_delete_image(data->mlx, temp->image);
+			if (temp->touch == true)
+			{
+				if(temp->image != NULL)
+					mlx_delete_image(data->mlx, temp->image);
+				temp->image = mlx_texture_to_image(data->mlx, data->collectible->texture);
+				mlx_resize_image(temp->image, P_SIZE, P_SIZE);
+				mlx_image_to_window(data->mlx, temp->image, temp->p_x, temp->p_y);
+				mlx_set_instance_depth(temp->image->instances, 253);
+			}
+			else if (temp->touch == false)
+			{
+				if(temp->image != NULL)
+					mlx_delete_image(data->mlx, temp->image);
+				temp->image = mlx_texture_to_image(data->mlx, data->collected->texture);
+				mlx_resize_image(temp->image, P_SIZE, P_SIZE);
+				mlx_image_to_window(data->mlx, temp->image, temp->p_x, temp->p_y);
+				mlx_set_instance_depth(temp->image->instances, 253);
+			}
 			temp = temp->next;
-		}
-		temp = data->c_image;
-		while (temp)
-		{
-			temp->image = mlx_texture_to_image(data->mlx, data->collectible->texture);
-			mlx_resize_image(temp->image, P_SIZE, P_SIZE);
-			mlx_image_to_window(data->mlx, temp->image, temp->p_x, temp->p_y);
-			mlx_set_instance_depth(temp->image->instances, 253);
-			temp = temp->next;
+			
 		}
 		data->time	= 0;
 		data->collectible = data->collectible->next;
+		data->collected = data->collected->next;
 	}
 }

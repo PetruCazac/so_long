@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:00:28 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/25 16:12:01 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/27 14:32:21 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 #include "../MLX42/include/MLX42/MLX42.h"
 
 #define I_SIZE 100
-#define P_SIZE 50
-#define ITERATIONS 7
-#define STEP 10
+#define P_SIZE 100
+#define ITERATIONS 5
+#define STEP 100
 
 typedef struct	s_animation
 {
@@ -61,6 +61,7 @@ typedef	struct s_cimage
 {
 	struct s_cimage		*next;
 	mlx_image_t			*image;
+	bool				touch;
 	int					p_x;
 	int					p_y;
 }				t_cimage;
@@ -83,9 +84,12 @@ typedef struct	s_element
 	t_image			image;
 	t_animation		*player;
 	mlx_image_t		*exit_image;
+	bool			exit_touch;
+	bool			exited;
 	t_animation		*collectible;
+	t_animation		*collected;
 	t_animation		*exit;
-	// t_position		*c_pos;
+	t_animation		*exit_valid;
 	t_cimage		*c_image;
 	mlx_image_t		*player_img;
 }				t_game;
@@ -100,7 +104,6 @@ void		free_array(char **arr);
 void		put_background(t_game *data);
 t_animation	*new_texture(char *path);
 int			add_texture(t_animation *node, t_animation **obj);
-// void		player_hook(void *param);
 void		exit_hook(void *param);
 void		collectible_hook(void *param);
 void		init_image(mlx_t *mlx, char **map);
@@ -119,5 +122,7 @@ void		track_down(t_game *data);
 void		track_right(t_game *data);
 void		track_left(t_game *data);
 void		collect(void *data);
+void		exit_a(void *param);
+void	fps(void *param);
 
 #endif
