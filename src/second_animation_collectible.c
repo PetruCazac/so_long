@@ -32,34 +32,18 @@ void	delete_collectible(t_game *data, int y, int x)
 	}
 }
 
-void	check_collectible(t_game *data, int (*p)[2])
-{
-	if ( data->map[p[0][1] / I_SIZE][(p[0][0] - STEP) / I_SIZE] == 'C')
-		delete_collectible(data, p[0][1], p[0][0]);
-	else if ( data->map[p[1][1] / I_SIZE][(p[1][0] - STEP) / I_SIZE] == 'C')
-		delete_collectible(data, p[1][1], p[1][0]);
-	else if ( data->map[p[2][1] / I_SIZE][(p[2][0] - STEP) / I_SIZE] == 'C')
-		delete_collectible(data, p[2][1], p[2][0]);
-	else if ( data->map[p[3][1] / I_SIZE][(p[3][0] - STEP) / I_SIZE] == 'C')
-		delete_collectible(data, p[3][1], p[3][0]);
-	else
-		return ;
-}
-
 void	collect(void *param)
 {
 	t_game			*data;
-	int				p[4][2];
+	int				p[2];
 
 	data = (t_game*) param;
 	// Find the middle and operate with it. 
-	p[0][0] = data->p_x;
-	p[0][1] = data->p_y;
-	p[1][0] = data->p_x;
-	p[1][1] = data->p_y + P_SIZE;
-	p[2][0] = data->p_x + P_SIZE;
-	p[2][1] = data->p_y;
-	p[3][0] = data->p_x + P_SIZE;
-	p[3][1] = data->p_y + P_SIZE;
-	check_collectible(data, p);
+	p[0] = data->p_x + (P_SIZE / 2);
+	p[1] = data->p_y + (P_SIZE / 2);
+	if ( data->map[p[1] / I_SIZE][(p[0]) / I_SIZE] == 'C')
+		delete_collectible(data, p[1], p[0]);
+	else
+		return ;
+
 }

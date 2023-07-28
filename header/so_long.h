@@ -26,7 +26,7 @@
 #define I_SIZE 100
 #define P_SIZE 100
 #define ITERATIONS 5
-#define STEP 100
+#define STEP 20
 
 typedef struct	s_animation
 {
