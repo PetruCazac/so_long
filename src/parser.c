@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:00:05 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/21 15:03:20 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/21 07:27:30 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/so_long.h"
-
+// Copies map into an array that will be processed later
 char **get_matrix(int fd, int count)
 {
 	char	*line;
@@ -37,7 +37,7 @@ char **get_matrix(int fd, int count)
 	}
 	return (matrix);
 }
-
+// Checks that the map is square
 int	square(char **map)
 {
 	int	i;
@@ -63,11 +63,11 @@ int	square(char **map)
 				exit(1);
 			}
 		}
-		i++;
+		i++;s
 	}
 	return (EXIT_SUCCESS);
 }
-
+// Checks if the walls are closed and there is a possible path
 void	all_walls_closed(char **map)
 {
 	int j;
@@ -83,6 +83,7 @@ void	all_walls_closed(char **map)
 		{
 			errno = 1;
 			perror("WALLS NOT CLOSED!");
+			free_array(map);
 			exit(errno);
 		}
 		j++;
@@ -94,12 +95,13 @@ void	all_walls_closed(char **map)
 		{
 			errno = 1;
 			perror("WALLS NOT CLOSED!");
+			free_array(map);
 			exit(errno);
 		}
 		c++;
 	}
 }
-
+// Checks for the presence of the mandatory elements
 void	mandatory_elements(char **map)
 {
 	int	i;
@@ -124,6 +126,7 @@ void	mandatory_elements(char **map)
 	{
 		errno = 1;
 		perror("MAP PLAYER ERROR");
+		free_array(map);
 		exit(errno);
 	}
 	c = 0;
@@ -143,6 +146,7 @@ void	mandatory_elements(char **map)
 	{
 		errno = 1;
 		perror("NOT ENOUGH COLLECTIBLES");
+		free_array(map);
 		exit(errno);
 	}
 	c = 0;
@@ -162,10 +166,11 @@ void	mandatory_elements(char **map)
 	{
 		errno = 1;
 		perror("MAP EXIT ERROR");
+		free_array(map);
 		exit(errno);
 	}
 }
-
+// Checks the correctness of the map
 char **parser(char *file)
 {
 	char	**matrix;
@@ -193,6 +198,12 @@ char **parser(char *file)
 		exit(errno);
 	}
 	matrix = get_matrix(fd, 0);
+	if (!matrix)
+	{
+		errno = 1;
+		perror("Allocation error");
+		exit(errno);
+	}
 	purge(matrix);
 	square(matrix);
 	all_walls_closed(matrix);

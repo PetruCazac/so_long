@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   movement.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 13:39:39 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/27 13:45:15 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/04 08:51:14 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	keypress(mlx_key_data_t keydata, void* param)
 	if (keydata.key == 256 && keydata.action == 1)
 	{
 		mlx_close_window(data->mlx);
+		free_data(data);
 	}
 	if (!data->exited)
 		return ;

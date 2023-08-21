@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+         #
+#    By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/10 10:01:48 by pcazac            #+#    #+#              #
-#    Updated: 2023/07/27 13:45:42 by pcazac           ###   ########.fr        #
+#    Updated: 2023/08/04 08:55:17 by pcazac           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,11 +24,11 @@ OS := $(shell uname)
 ifeq ($(OS), Darwin)
 	MINILIBX = MLX42/build/libmlx42.a
 	MLX_PATH = -L"/Users/$(USER)/.brew/opt/glfw/lib/"
-	MLX = -Iinclude -lglfw -framework Cocoa -framework OpenGL -framework IOKit
+	MLX = -Iinclude -lglfw -framework Cocoa -framework OpenGL -framework IOKit -DDEBUG=1
 else ifeq ($(OS), Linux)
 	MINILIBX = MLX42/build/libmlx42.a
 	MLX_PATH = -L"MLX42/build/"
-	MLX = -Iinclude -ldl -lglfw -pthread -lm
+	MLX = -Iinclude -ldl -lglfw -pthread -lm -DDEBUG=1
 else 
 	$(shell echo "OS not supported");
 endif
@@ -39,18 +39,19 @@ SRC = so_long.c init_check.c parser.c utils.c pathfinding.c image.c \
 	list_utils.c initialize_player.c initialize_collectible.c \
 	initialize_exit.c initialize_background.c track_position.c \
 	second_animation_collectible.c second_animation_exit.c \
-	show_info.c movement.c 
+	show_info.c movement.c free_data.c
 	
 OBJ = $(SRC:%.c=$(OBJ_PATH)/%.o)
 OBJ_PATH = obj
 
 CC= cc
-CFLAGS= -g -Wall -Wextra -Werror -Wunreachable-code -Ofast -DEBUG=1
-
+CFLAGS= -g -Wall -Wextra -Werror -Wunreachable-code -Ofast
+# 
+ -fsanitize=address
 all: libmlx $(NAME) 
 
-# libmlx:
-# 	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+libmlx:
+	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
 $(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB_PATH) $(LIBRARY) $(MINILIBX) $(MLX) $(MLX_PATH)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:00:28 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/27 14:32:21 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/07/29 15:40:36 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,19 @@ typedef struct	s_element
 	int				time;
 	int				time_p;
 	char			**map;
-	mlx_t			*mlx;
-	t_texture		texture;
-	t_image			image;
-	t_animation		*player;
-	mlx_image_t		*exit_image;
 	bool			exit_touch;
 	bool			exited;
+	mlx_t			*mlx;
+	mlx_image_t		*player_img; // Pointer to the player image
+	mlx_image_t		*exit_image; // Pointer to the exit image
+	t_cimage		*c_image; // Collectible image
+	t_texture		texture; // Background texture
+	t_image			image; // Background image
+	t_animation		*player;
 	t_animation		*collectible;
 	t_animation		*collected;
 	t_animation		*exit;
 	t_animation		*exit_valid;
-	t_cimage		*c_image;
-	mlx_image_t		*player_img;
 }				t_game;
 
 
@@ -106,7 +106,7 @@ t_animation	*new_texture(char *path);
 int			add_texture(t_animation *node, t_animation **obj);
 void		exit_hook(void *param);
 void		collectible_hook(void *param);
-void		init_image(mlx_t *mlx, char **map);
+void		init_image(t_game *data);
 void		initialize_background(t_game *data);
 void		initialize_player(t_game *data);
 void		initialize_collectible(t_game *data);
@@ -123,6 +123,7 @@ void		track_right(t_game *data);
 void		track_left(t_game *data);
 void		collect(void *data);
 void		exit_a(void *param);
-void	fps(void *param);
+void		fps(void *param);
+void		free_data(t_game *data);
 
 #endif
