@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:00:05 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/21 07:27:30 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/21 21:23:46 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	square(char **map)
 				exit(1);
 			}
 		}
-		i++;s
+		i++;
 	}
 	return (EXIT_SUCCESS);
 }

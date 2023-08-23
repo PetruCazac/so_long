@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 11:23:38 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/04 08:35:10 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/23 07:45:56 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 void	free_background(t_game *data)
 {
-	mlx_delete_texture(data->texture.walls);
-	mlx_delete_texture(data->texture.ground);
+	// mlx_delete_texture(data->texture.walls);
+	// mlx_delete_texture(data->texture.ground);
 	mlx_delete_image(data->mlx, data->image.walls);
 	mlx_delete_image(data->mlx, data->image.ground);
 }
@@ -32,8 +32,12 @@ void	free_animation(t_animation *ptr)
 		temp2 = temp;
 		temp = temp->end;
 		if (temp2->texture)
+		{
 			mlx_delete_texture(temp2->texture);
+			temp2->texture = NULL;
+		}
 		free(temp2);
+		temp2 = NULL;
 	}
 }
 
@@ -48,8 +52,12 @@ void	free_image(mlx_t *mlx, t_cimage *ptr)
 		temp2 = temp;
 		temp = temp->next;
 		if (temp2->image)
+		{
 			mlx_delete_image(mlx, temp2->image);
+			temp2->image = NULL;
+		}
 		free(temp2);
+		temp2 = NULL;
 	}
 }
 
@@ -57,7 +65,10 @@ void	free_image(mlx_t *mlx, t_cimage *ptr)
 void	free_data(t_game *data)
 {
 	if (data->map)
+	{
 		free_array(data->map);
+		data->map = NULL;
+	}
 	free_background(data);
 	free_animation(data->player);
 	free_animation(data->collectible);
