@@ -6,16 +6,19 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:31:06 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/23 16:45:54 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/23 19:41:31 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/so_long.h"
 
+/// @brief Returns the player position
+/// @param map Game map
+/// @param data Data set that holds the game info
 void	get_player_position(char **map, t_game *data)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = -1;
 	while (map[++i])
@@ -32,11 +35,15 @@ void	get_player_position(char **map, t_game *data)
 	}
 }
 
+/// @brief Function loads the texture from the preset path
+/// @return The array of the paths
 char	**get_player_path(void)
 {
-	char **path;
+	char	**path;
 
-	path = ft_calloc(21, sizeof(char *));
+	path = ft_calloc(19, sizeof(char *));
+		if (!path)
+			return (NULL);
 	path[0] = ft_strdup("Textures/Vampire/Vampire1.png");
 	path[1] = ft_strdup("Textures/Vampire/Vampire1.png");
 	path[2] = ft_strdup("Textures/Vampire/Vampire1.png");
@@ -51,40 +58,43 @@ char	**get_player_path(void)
 	path[11] = ft_strdup("Textures/Vampire/Vampire3.png");
 	path[12] = ft_strdup("Textures/Vampire/Vampire3.png");
 	path[13] = ft_strdup("Textures/Vampire/Vampire3.png");
-	path[14] = ft_strdup("Textures/Vampire/Vampire3.png");
+	path[14] = ft_strdup("Textures/Vampire/Vampire4.png");
 	path[15] = ft_strdup("Textures/Vampire/Vampire4.png");
 	path[16] = ft_strdup("Textures/Vampire/Vampire4.png");
 	path[17] = ft_strdup("Textures/Vampire/Vampire4.png");
-	path[18] = ft_strdup("Textures/Vampire/Vampire4.png");
-	path[19] = ft_strdup("Textures/Vampire/Vampire4.png");
-	path[20] = "\0";
+	path[18] = "\0";
 	return (path);
 }
 
-void initialize_player(t_game *data)
+/// @brief Initializes the player texture and position
+/// @param data The pointer to the game data structure
+void	initialize_player(t_game *data)
 {
 	int			i;
-	char		**path;
 
 	get_player_position(data->map, data);
-	path = get_player_path();
+	data->player_tp = get_player_path();
+	if (!data->player_tp)
+		free_data(data);
 	i = 0;
-	while (path[i] && path[i][0] != '\0')
+	while (data->player_tp[i] && data->player_tp[i][0] != '\0')
 	{
-		if (add_texture(new_texture(path[i]), &(data->player)) == 1)
+		if (add_texture(new_texture(data->player_tp[i]), &(data->player)) == 1)
 			free_data(data);
 		i++;
 	}
 }
 
+/// @brief Deletes the previous player image and puts the new image
+/// @param param The pointer to the game data structure
 void	player_static_hook(void *param)
 {
 	t_game				*data;
 	static mlx_image_t	*image_p;
 
-	data = (t_game*) param;
+	data = (t_game *)param;
 	data->time_p++;
-	if(image_p != NULL)
+	if (image_p != NULL)
 		mlx_delete_image(data->mlx, image_p);
 	data->player_img = image_p;
 	image_p = mlx_texture_to_image(data->mlx, data->player->texture);
@@ -94,16 +104,17 @@ void	player_static_hook(void *param)
 	data->player = data->player->next;
 }
 
-
+/// @brief Deletes the previous player image and puts the new image
+/// @param param The pointer to the game data structure
 void	player_moving_hook(void *param)
 {
 	t_game				*data;
 	static mlx_image_t	*image_p;
 
-	data = (t_game*) param;
-	if(image_p != NULL)
+	data = (t_game *) param;
+	if (image_p != NULL)
 		mlx_delete_image(data->mlx, image_p);
-	if(data->player_img != NULL)
+	if (data->player_img != NULL)
 		mlx_delete_image(data->mlx, data->player_img);
 	image_p = mlx_texture_to_image(data->mlx, data->player->texture);
 	mlx_resize_image(image_p, P_SIZE, P_SIZE);

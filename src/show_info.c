@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 10:17:26 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/27 10:25:26 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/23 18:54:15 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 void	fps(void *param)
 {
 	t_game				*data;
-	static mlx_image_t *t;
-	static mlx_image_t *t2;
-	char *d;
-	char *dd;
+	static mlx_image_t	*t;
+	static mlx_image_t	*t2;
+	char				*d;
+	char				*dd;
 
-	
-	data = (t_game*) param;
+	data = (t_game *)param;
 	if (t)
 		mlx_delete_image(data->mlx, t);
 	dd = ft_itoa((double) 1 / data->mlx->delta_time);

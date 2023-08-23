@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:31:06 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/27 10:44:24 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/23 19:36:16 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	**get_collectible_path(void)
 	char **path;
 
 	path = ft_calloc(9, sizeof(char *));
+	if (!path)
+		return (NULL);
 	path[0] = ft_strdup("Textures/Collectible/Player1.png");
 	path[1] = ft_strdup("Textures/Collectible/Player2.png");
 	path[2] = ft_strdup("Textures/Collectible/Player3.png");

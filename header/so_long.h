@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:00:28 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/23 16:24:58 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/23 19:27:18 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/uio.h>
-#include <errno.h>
+# include <errno.h>
 # include "structures.h"
 # include "../libft/header/libft.h"
-#include "../MLX42/include/MLX42/MLX42.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 
-#define I_SIZE 100
-#define P_SIZE 100
-#define ITERATIONS 5
-#define STEP 20
+# define I_SIZE 100
+# define P_SIZE 100
+# define ITERATIONS 5
+# define STEP 20
 
 // init_check.c
 int			check_all(int argc);
@@ -39,7 +39,7 @@ char		**parser(char *file);
 void		purge(char **map);
 char		**copymap(char **map);
 void		free_array(char **arr);
-void		errormngr(char ** map, char *str);
+void		errormngr(char **map, char *str);
 char		**get_matrix(int fd, int count);
 
 // pathfinding.c
@@ -49,10 +49,12 @@ void		find_path(char **map);
 void		put_background(t_game *data);
 
 // list_utils.c
-t_animation	*new_texture(char *path);
-int			add_texture(t_animation *node, t_animation **obj);
 t_game		*initialize_data(char **map, mlx_t *mlx);
 t_cimage	*new_cnode(int x, int y);
+
+// image_utils.c
+t_animation	*new_texture(char *path);
+int			add_texture(t_animation *node, t_animation **obj);
 void		add_back_image(t_cimage *img, t_game *data);
 
 // initialize_exit.c
@@ -79,7 +81,7 @@ void		initialize_collectible(t_game *data);
 void		initialize_exit(t_game *data);
 
 // movement.c
-void		keypress(mlx_key_data_t keydata, void* param);
+void		keypress(mlx_key_data_t keydata, void *param);
 
 // track_position.c
 void		track_up(t_game *data);
