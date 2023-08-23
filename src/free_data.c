@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 11:23:38 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/23 07:45:56 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/23 18:12:49 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,26 @@
 
 void	free_background(t_game *data)
 {
-	// mlx_delete_texture(data->texture.walls);
-	// mlx_delete_texture(data->texture.ground);
-	mlx_delete_image(data->mlx, data->image.walls);
-	mlx_delete_image(data->mlx, data->image.ground);
+	if (data->texture.walls)
+	{
+		mlx_delete_texture(data->texture.walls);
+		data->texture.walls = NULL;
+	}
+	if (data->texture.ground)
+	{
+		mlx_delete_texture(data->texture.ground);
+		data->texture.ground = NULL;
+	}
+	if (data->image.walls)
+	{
+		mlx_delete_image(data->mlx, data->image.walls);
+		data->image.walls = NULL;
+	}
+	if (data->image.ground)
+	{
+		mlx_delete_image(data->mlx, data->image.ground);
+		data->image.ground = NULL;
+	}
 }
 
 void	free_animation(t_animation *ptr)
@@ -76,10 +92,18 @@ void	free_data(t_game *data)
 	free_animation(data->exit);
 	free_animation(data->exit_valid);
 	free_image(data->mlx, data->c_image);
-	// if (data->player_img)
-	// 	mlx_delete_image(data->mlx, data->player_img);
-	// if (data->exit_image)
-	// 	mlx_delete_image(data->mlx, data->exit_image);
-	// mlx_terminate(data->mlx);
+	if (data->player_img)
+	{
+		mlx_delete_image(data->mlx, data->player_img);
+		data->player_img = NULL;
+	}
+	if (data->exit_image)
+	{
+		mlx_delete_image(data->mlx, data->exit_image);
+		data->exit_image = NULL;
+	}
+	mlx_close_window(data->mlx);
+	mlx_terminate(data->mlx);
 	free(data);
+	exit(0);
 }

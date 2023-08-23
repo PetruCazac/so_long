@@ -6,12 +6,17 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:13:51 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/17 10:41:33 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/23 13:29:01 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/so_long.h"
 
+char	**fill_map(char **map, int y, int x);
+
+/// @brief Finds the player position on the map
+/// @param map Is the char array for the game map
+/// @param player The player position
 void	find_element(char **map, int (*player)[2])
 {
 	int		i;
@@ -21,9 +26,9 @@ void	find_element(char **map, int (*player)[2])
 	while (map[++i])
 	{
 		j = -1;
-		while(map[i][++j])
+		while (map[i][++j])
 		{
-			if(map[i][j] == 'P')
+			if (map[i][j] == 'P')
 			{
 				(*player)[0] = i;
 				(*player)[1] = j;
@@ -32,46 +37,43 @@ void	find_element(char **map, int (*player)[2])
 	}
 }
 
-char	**fill_map(char **map, int *source)
+/// @brief Fills a single cell of the map
+/// @param map Copy of the game map, char array
+/// @param y Y position of reference
+/// @param x X position of reference
+/// @param direction Structure for the direction of the next position
+void	fill_cell(char **map, int y, int x, t_pair direction)
 {
-	int	next[2];
+	map[y][x] = '1';
+	fill_map(map, y + direction.y, x + direction.x);
+}
 
-	if (map[source[0]][source[1]] != '1')
+/// @brief Is a flood fill recursive function
+/// @param map The map char array to be analyzed
+/// @param y Starting y position
+/// @param x Starting x position
+/// @return The filled map
+char	**fill_map(char **map, int y, int x)
+{
+	if (map[y][x] != '1')
 	{
-		if ( map[source[0] + 1][source[1]] != '1')
-		{
-			next[0] = source[0] + 1;
-			next[1] = source[1];
-			map[source[0]][source[1]] = '1';
-			fill_map(map, next);
-		}
-		if (map[source[0] - 1][source[1]] !='1')
-		{
-			next[0] = source[0] - 1;
-			next[1] = source[1];
-			map[source[0]][source[1]] = '1';
-			fill_map(map, next);
-		}
-		if (map[source[0]][source[1] + 1] !='1')
-		{
-			next[0] = source[0];
-			next[1] = source[1] + 1;
-			map[source[0]][source[1]] = '1';
-			fill_map(map, next);
-		}
-		if (map[source[0]][source[1] - 1] !='1')
-		{
-			next[0] = source[0];
-			next[1] = source[1] - 1;
-			map[source[0]][source[1]] = '1';
-			fill_map(map, next);
-		}
+		if (map[y + 1][x] != '1')
+			fill_cell(map, y, x, (t_pair){1, 0});
+		if (map[y - 1][x] != '1')
+			fill_cell(map, y, x, (t_pair){-1, 0});
+		if (map[y][x + 1] != '1')
+			fill_cell(map, y, x, (t_pair){0, 1});
+		if (map[y][x - 1] != '1')
+			fill_cell(map, y, x, (t_pair){0, -1});
 	}
-	map[source[0]][source[1]] = '1';
+	map[y][x] = '1';
 	return (map);
 }
 
-int	check_map(char** map)
+/// @brief Checks for the presence of the characters after flood fill
+/// @param map Is the game map as an char array
+/// @return Frees the modified map and returns failure or success
+int	check_map(char **map)
 {
 	int	i;
 	int	j;
@@ -89,6 +91,8 @@ int	check_map(char** map)
 	return (free_array(map), EXIT_SUCCESS);
 }
 
+/// @brief The functions copies the map and analyses the possible paths
+/// @param map Game map, char array
 void	find_path(char **map)
 {
 	char		**map_copy;
@@ -103,7 +107,7 @@ void	find_path(char **map)
 		exit(errno);
 		return ;
 	}
-	if (check_map(fill_map(map_copy, player)) == EXIT_FAILURE)
+	if (check_map(fill_map(map_copy, player[0], player[1])) == EXIT_FAILURE)
 	{
 		free_array(map);
 		errno = 1;

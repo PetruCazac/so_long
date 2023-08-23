@@ -6,13 +6,16 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:07:01 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/13 16:52:13 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/23 12:06:43 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/so_long.h"
 
-int check_all(int argc)
+/// @brief Checks the number of arguments
+/// @param argc The input arguments
+/// @return Returns if there is not 2 arguments
+int	check_all(int argc)
 {
 	if (argc != 2)
 	{
@@ -21,5 +24,3 @@ int check_all(int argc)
 	}
 	return (EXIT_SUCCESS);
 }
-
-// Check that the file has a .ber type of extention 

@@ -3,22 +3,22 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+         #
+#    By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/10 10:01:48 by pcazac            #+#    #+#              #
-#    Updated: 2023/08/04 08:55:17 by pcazac           ###   ########.fr        #
+#    Updated: 2023/08/23 16:20:39 by pcazac           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
 LIBFT = libft/libft.a
-
-
+LIBMLX = ./MLX42
 
 LIB_PATH = -Llibft
 LIBRARY = -lft
 
-LIBMLX = ./MLX42
+LIBMLX_PATH = $(LIBMLX)/build
+
 
 OS := $(shell uname)
 ifeq ($(OS), Darwin)
@@ -46,18 +46,19 @@ OBJ_PATH = obj
 
 CC= cc
 CFLAGS= -g -Wall -Wextra -Werror -Wunreachable-code -Ofast
-# 
- -fsanitize=address
-all: libmlx $(NAME) 
 
-libmlx:
-	@cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+# -fsanitize=address
+all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJ)
+$(NAME): $(LIBFT) $(LIBMLX) $(OBJ) 
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB_PATH) $(LIBRARY) $(MINILIBX) $(MLX) $(MLX_PATH)
 
+$(LIBMLX): $(LIBMLX_PATH)/libmlx42.a
+
+$(LIBMLX_PATH)/libmlx42.a:
+	cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
+
 $(LIBFT):
-	# make -C $(@D) fclean
 	make -C $(@D) all
 
 $(OBJ_PATH)/%.o : %.c
@@ -65,13 +66,15 @@ $(OBJ_PATH)/%.o : %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@/bin/rm -rf $(OBJ_PATH)
+	/bin/rm -rf $(OBJ_PATH)
 	$(MAKE) -C ./libft/ clean
+	# make -C $(LIBMLX)/build clean
 
 fclean: clean
-	@/bin/rm -f $(NAME)
+	/bin/rm -f $(NAME)
 	$(MAKE) -C ./libft/ fclean
-	
+	# make -C $(LIBMLX)/build clean
+
 re: fclean all
 
-.PHONY: all, clean, fclean, re, memory, libmlx
+.PHONY: all, clean, fclean, re

@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:31:06 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/22 21:18:29 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/23 16:45:54 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void initialize_player(t_game *data)
 	while (path[i] && path[i][0] != '\0')
 	{
 		if (add_texture(new_texture(path[i]), &(data->player)) == 1)
-			return ; // free everything
+			free_data(data);
 		i++;
 	}
 }

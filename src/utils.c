@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:58:42 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/21 07:24:45 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/23 16:25:12 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/so_long.h"
-// Deletes all the newline elements from the array
+/// @brief Deletes the newline at the end of each line
+/// @param map Game map, char array
 void	purge(char **map)
 {
 	int	i;
@@ -32,10 +33,13 @@ void	purge(char **map)
 	}
 }
 
-char **copymap(char **map)
+/// @brief Copies the game map and returns the copy
+/// @param map The game map which is a char array
+/// @return Char array of the copied map
+char	**copymap(char **map)
 {
-	int	i;
-	char **copy_map;
+	int		i;
+	char	**copy_map;
 
 	i = 0;
 	while (map[i])
@@ -56,6 +60,8 @@ char **copymap(char **map)
 	return (copy_map);
 }
 
+/// @brief Frees any char array
+/// @param arr char array to be freed
 void	free_array(char **arr)
 {
 	int	i;
@@ -64,4 +70,45 @@ void	free_array(char **arr)
 	while (arr[++i])
 		free(arr[i]);
 	free(arr);
+}
+
+/// @brief Manges the map errors
+/// @param map Game map, char array
+/// @param str Error message to be displayed
+void errormngr(char ** map, char *str)
+{
+	errno = 1;
+	perror(str);
+	free_array(map);
+	exit(errno);
+}
+
+/// @brief Reads the map file and copies map into an array
+/// @param fd  File descriptor of the map
+/// @param count Int var that is 0
+/// @return Returns the array of the map
+char	**get_matrix(int fd, int count)
+{
+	char	*line;
+	char	**matrix;
+
+	line = NULL;
+	matrix = NULL;
+	line = get_next_line(fd);
+	count++;
+	if (!line)
+	{
+		matrix = ft_calloc(((size_t) count) + 1, sizeof(char *));
+		if (matrix == NULL)
+			return (free(line), NULL);
+		matrix[count] = line;
+	}
+	else if (line[0] != '\0')
+	{
+		matrix = get_matrix(fd, count);
+		if (matrix == NULL)
+			return (free(line), NULL);
+		matrix[count - 1] = line;
+	}
+	return (matrix);
 }

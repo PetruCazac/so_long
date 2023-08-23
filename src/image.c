@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 16:02:13 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/29 15:40:05 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/23 11:53:59 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	init_image(t_game *data)
 	mlx_loop_hook(data->mlx, &exit_a, (void *) data);
 	mlx_loop_hook(data->mlx, &collect, (void *) data);
 	mlx_loop_hook(data->mlx, &collectible_hook, (void *) data);
-	mlx_loop_hook(data->mlx, &exit_hook, (void *) data);
 	mlx_loop_hook(data->mlx, &player_static_hook, (void *) data);
-	mlx_key_hook(data->mlx, keypress, data);
+	mlx_key_hook(data->mlx, keypress, (void *) data);
+	mlx_loop_hook(data->mlx, &exit_hook, (void *) data);
 	mlx_loop(data->mlx);
 	return ;
 }
