@@ -6,16 +6,19 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:31:06 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/24 09:16:11 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/24 10:08:23 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/so_long.h"
 
+/// @brief Returns the player position
+/// @param map Game map
+/// @param data Data set that holds the game info
 void	get_player_position(char **map, t_game *data)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = -1;
 	while (map[++i])
@@ -32,9 +35,11 @@ void	get_player_position(char **map, t_game *data)
 	}
 }
 
+/// @brief Function loads the texture from the preset path
+/// @return The array of the paths
 char	**get_player_path(void)
 {
-	char **path;
+	char	**path;
 
 	path = ft_calloc(21, sizeof(char *));
 	if (!path)
@@ -61,10 +66,12 @@ char	**get_player_path(void)
 	return (path);
 }
 
-void initialize_player(t_game *data)
+/// @brief Initializes the player texture and position
+/// @param data The pointer to the game data structure
+void	initialize_player(t_game *data)
 {
-	int			i;
-	char		**path;
+	int		i;
+	char	**path;
 
 	get_player_position(data->map, data);
 	path = get_player_path();
@@ -80,14 +87,16 @@ void initialize_player(t_game *data)
 	free_array(path);
 }
 
+/// @brief Deletes the previous player image and puts the new image
+/// @param param The pointer to the game data structure
 void	player_static_hook(void *param)
 {
 	t_game				*data;
 	static mlx_image_t	*image_p;
 
-	data = (t_game*) param;
+	data = (t_game *)param;
 	data->time_p++;
-	if(image_p != NULL)
+	if (image_p != NULL)
 		mlx_delete_image(data->mlx, image_p);
 	data->player_img = image_p;
 	image_p = mlx_texture_to_image(data->mlx, data->player->texture);
@@ -97,16 +106,17 @@ void	player_static_hook(void *param)
 	data->player = data->player->next;
 }
 
-
+/// @brief Deletes the previous player image and puts the new image
+/// @param param The pointer to the game data structure
 void	player_moving_hook(void *param)
 {
 	t_game				*data;
 	static mlx_image_t	*image_p;
 
-	data = (t_game*) param;
-	if(image_p != NULL)
+	data = (t_game *) param;
+	if (image_p != NULL)
 		mlx_delete_image(data->mlx, image_p);
-	if(data->player_img != NULL)
+	if (data->player_img != NULL)
 		mlx_delete_image(data->mlx, data->player_img);
 	image_p = mlx_texture_to_image(data->mlx, data->player->texture);
 	mlx_resize_image(image_p, P_SIZE, P_SIZE);

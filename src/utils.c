@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:58:42 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/23 21:06:50 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/24 10:06:27 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	free_array(char **arr)
 /// @brief Manges the map errors
 /// @param map Game map, char array
 /// @param str Error message to be displayed
-void errormngr(char ** map, char *str)
+void	errormngr(char **map, char *str)
 {
 	errno = 1;
 	perror(str);

@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:41:03 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/24 09:28:57 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/24 10:06:55 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,14 @@ void	initialize_ints(t_game *data, char **map)
 	data->c_count = 0;
 	data->time = 0;
 	data->time_p = 0;
+	data->coll_tp = NULL;
+	data->colld_tp = NULL;
+	data->player_tp = NULL;
+	data->exit_tp = NULL;
+	data->exited_tp = NULL;
 }
 
-/// @brief Iniitalizes the data structure
+/// @brief Iniitalizes the -> structure
 /// @param map Game map
 /// @param mlx Pointer for the graphical interface
 /// @return The data structure
@@ -118,7 +123,7 @@ t_cimage	*new_cnode(int y, int x)
 	tmp = ft_calloc(1, sizeof(t_cimage));
 	if (tmp)
 	{
-		tmp->image =  NULL;
+		tmp->image = NULL;
 		tmp->next = NULL;
 		tmp->p_x = x * I_SIZE;
 		tmp->p_y = y * I_SIZE;
@@ -127,20 +132,4 @@ t_cimage	*new_cnode(int y, int x)
 	return (tmp);
 }
 
-/// @brief Adds a new node to the back of the image linked list
-/// @param node The new node to be added
-/// @param data The data structure that contains the linked list
-void	add_back_image(t_cimage *node, t_game *data)
-{
-	t_cimage	*temp;
 
-	if (data->c_image == NULL)
-	{
-		data->c_image = node;
-		return ;
-	}
-	temp = data->c_image;
-	while (temp->next != NULL)
-		temp = temp->next;
-	temp->next = node;
-}

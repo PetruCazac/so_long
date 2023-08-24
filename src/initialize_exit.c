@@ -6,16 +6,19 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:31:06 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/23 23:46:09 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/24 10:06:17 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/so_long.h"
 
+/// @brief 
+/// @param map 
+/// @param data 
 void	get_exit_position(char **map, t_game *data)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = -1;
 	while (map[++i])
@@ -32,9 +35,12 @@ void	get_exit_position(char **map, t_game *data)
 	}
 }
 
+/// @brief 
+/// @param  
+/// @return 
 char	**get_exit_path(void)
 {
-	char **path;
+	char	**path;
 
 	path = ft_calloc(7, sizeof(char *));
 	path[0] = ft_strdup("Textures/Fire/fire1.png");
@@ -47,9 +53,12 @@ char	**get_exit_path(void)
 	return (path);
 }
 
+/// @brief 
+/// @param  
+/// @return 
 char	**get_valid_exit_path(void)
 {
-	char **path;
+	char	**path;
 
 	path = ft_calloc(5, sizeof(char *));
 	path[0] = ft_strdup("Textures/Fire/fire11.png");
@@ -60,11 +69,13 @@ char	**get_valid_exit_path(void)
 	return (path);
 }
 
-void initialize_exit(t_game *data)
+/// @brief 
+/// @param data 
+void	initialize_exit(t_game *data)
 {
-	int			i;
-	char		**path;
-	char		**path2;
+	int		i;
+	char	**path;
+	char	**path2;
 
 	get_exit_position(data->map, data);
 	path = get_exit_path();
@@ -89,17 +100,19 @@ void initialize_exit(t_game *data)
 	free_array(path2);
 }
 
+/// @brief 
+/// @param param 
 void	exit_hook(void *param)
 {
-	t_game				*data;
+	t_game	*data;
 
-	data = (t_game*) param;
+	data = (t_game *)param;
 	data->time++;
 	if (data->exit_touch == true)
 	{
 		if (data->time > ITERATIONS)
 		{
-			if(data->exit_image != NULL)
+			if (data->exit_image != NULL)
 				mlx_delete_image(data->mlx, data->exit_image);
 			data->exit_image = mlx_texture_to_image(data->mlx, data->exit->texture);
 			mlx_resize_image(data->exit_image, P_SIZE, P_SIZE);
@@ -112,7 +125,7 @@ void	exit_hook(void *param)
 	{
 		if (data->time > ITERATIONS)
 		{
-			if(data->exit_image != NULL)
+			if (data->exit_image != NULL)
 				mlx_delete_image(data->mlx, data->exit_image);
 			data->exit_image = mlx_texture_to_image(data->mlx, data->exit_valid->texture);
 			mlx_resize_image(data->exit_image, P_SIZE, P_SIZE);

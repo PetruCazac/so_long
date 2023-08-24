@@ -6,7 +6,7 @@
 #    By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/10 10:01:48 by pcazac            #+#    #+#              #
-#    Updated: 2023/08/23 16:20:39 by pcazac           ###   ########.fr        #
+#    Updated: 2023/08/23 19:25:19 by pcazac           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ SRC = so_long.c init_check.c parser.c utils.c pathfinding.c image.c \
 	list_utils.c initialize_player.c initialize_collectible.c \
 	initialize_exit.c initialize_background.c track_position.c \
 	second_animation_collectible.c second_animation_exit.c \
-	show_info.c movement.c free_data.c
+	show_info.c movement.c free_data.c image_utils.c
 	
 OBJ = $(SRC:%.c=$(OBJ_PATH)/%.o)
 OBJ_PATH = obj
