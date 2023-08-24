@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:31:06 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/24 10:05:09 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/24 20:25:33 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**get_collectible_path(void)
 {
-	char **path;
+	char	**path;
 
 	path = ft_calloc(9, sizeof(char *));
 	if (!path)
@@ -33,7 +33,7 @@ char	**get_collectible_path(void)
 
 char	**get_collected_path(void)
 {
-	char **path;
+	char	**path;
 
 	path = ft_calloc(4, sizeof(char *));
 	if (!path)
@@ -47,8 +47,8 @@ char	**get_collected_path(void)
 
 void	get_cposition(t_game *data, char **map, char elem)
 {
-	int y;
-	int x;
+	int	y;
+	int	x;
 
 	y = 0;
 	while (map[y] != NULL)
@@ -67,11 +67,11 @@ void	get_cposition(t_game *data, char **map, char elem)
 	}
 }
 
-void initialize_collectible(t_game *data)
+void	initialize_collectible(t_game *data)
 {
-	int				i;
-	char			**path;
-	char			**path2;
+	int		i;
+	char	**path;
+	char	**path2;
 
 	get_cposition(data, data->map, 'C');
 	path = get_collectible_path();
@@ -98,37 +98,22 @@ void initialize_collectible(t_game *data)
 
 void	collectible_hook(void *param)
 {
-	t_game				*data;
-	t_cimage			*temp;
+	t_game		*data;
+	t_cimage	*temp;
 
-	data = (t_game*) param;
-	if (data->time > ITERATIONS )
+	data = (t_game *)param;
+	if (data->time > ITERATIONS)
 	{
 		temp = data->c_image;
 		while (temp)
 		{
 			if (temp->touch == true)
-			{
-				if(temp->image != NULL)
-					mlx_delete_image(data->mlx, temp->image);
-				temp->image = mlx_texture_to_image(data->mlx, data->collectible->texture);
-				mlx_resize_image(temp->image, P_SIZE, P_SIZE);
-				mlx_image_to_window(data->mlx, temp->image, temp->p_x, temp->p_y);
-				mlx_set_instance_depth(temp->image->instances, 253);
-			}
+				to_collect(temp, data);
 			else if (temp->touch == false)
-			{
-				if(temp->image != NULL)
-					mlx_delete_image(data->mlx, temp->image);
-				temp->image = mlx_texture_to_image(data->mlx, data->collected->texture);
-				mlx_resize_image(temp->image, P_SIZE, P_SIZE);
-				mlx_image_to_window(data->mlx, temp->image, temp->p_x, temp->p_y);
-				mlx_set_instance_depth(temp->image->instances, 253);
-			}
+				collected(temp, data);
 			temp = temp->next;
-			
 		}
-		data->time	= 0;
+		data->time = 0;
 		data->collectible = data->collectible->next;
 		data->collected = data->collected->next;
 	}

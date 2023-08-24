@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/23 19:24:52 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/23 19:27:04 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/24 18:17:19 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ t_animation	*new_texture(char *path)
 	if (temp == NULL)
 		return (NULL);
 	temp->texture = mlx_load_png(path);
+	temp->next = NULL;
+	temp->end = NULL;
+	temp->previous = NULL;
 	return (temp);
 }
 

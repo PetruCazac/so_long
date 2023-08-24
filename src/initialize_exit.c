@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:31:06 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/24 10:06:17 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/24 19:17:10 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,30 +74,30 @@ char	**get_valid_exit_path(void)
 void	initialize_exit(t_game *data)
 {
 	int		i;
-	char	**path;
-	char	**path2;
+	char	**p;
+	char	**p2;
 
 	get_exit_position(data->map, data);
-	path = get_exit_path();
-	if (!path)
+	p = get_exit_path();
+	if (!p)
 		free_data(data);
-	path2 = get_valid_exit_path();
-	if (!path2)
+	p2 = get_valid_exit_path();
+	if (!p2)
 		free_data(data);
 	i = -1;
-	while (path[++i])
+	while (p[++i])
 	{
-		if (add_texture(new_texture(path[i]), &(data->exit)) == 1)
-			return (free_array(path), free_array(path2), free_data(data));
+		if (add_texture(new_texture(p[i]), &(data->exit)) == 1)
+			return (free_array(p), free_array(p2), free_data(data));
 	}
-	free_array(path);
+	free_array(p);
 	i = -1;
-	while (path2[++i])
+	while (p2[++i])
 	{
-		if (add_texture(new_texture(path2[i]), &(data->exit_valid)) == 1)
-			return (free_array(path2), free_data(data));
+		if (add_texture(new_texture(p2[i]), &(data->exit_valid)) == 1)
+			return (free_array(p2), free_data(data));
 	}
-	free_array(path2);
+	free_array(p2);
 }
 
 /// @brief 
@@ -111,27 +111,11 @@ void	exit_hook(void *param)
 	if (data->exit_touch == true)
 	{
 		if (data->time > ITERATIONS)
-		{
-			if (data->exit_image != NULL)
-				mlx_delete_image(data->mlx, data->exit_image);
-			data->exit_image = mlx_texture_to_image(data->mlx, data->exit->texture);
-			mlx_resize_image(data->exit_image, P_SIZE, P_SIZE);
-			mlx_image_to_window(data->mlx, data->exit_image, data->e_x, data->e_y);
-			mlx_set_instance_depth(data->exit_image->instances, 249);
-			data->exit = data->exit->next;
-		}
+			simple_exit(data);
 	}
 	else if (data->exit_touch == false)
 	{
 		if (data->time > ITERATIONS)
-		{
-			if (data->exit_image != NULL)
-				mlx_delete_image(data->mlx, data->exit_image);
-			data->exit_image = mlx_texture_to_image(data->mlx, data->exit_valid->texture);
-			mlx_resize_image(data->exit_image, P_SIZE, P_SIZE);
-			mlx_image_to_window(data->mlx, data->exit_image, data->e_x, data->e_y);
-			mlx_set_instance_depth(data->exit_image->instances, 249);
-			data->exit_valid = data->exit_valid->next;
-		}
+			after_exit(data);
 	}
 }

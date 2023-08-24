@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 11:23:38 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/24 09:55:49 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/24 19:19:41 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	free_animation(t_animation *ptr)
 	while (temp->end)
 		temp = temp->end;
 	temp = temp->next;
-	while(temp)
+	while (temp)
 	{
 		temp2 = temp;
 		temp = temp->end;
@@ -72,7 +72,7 @@ void	free_image(mlx_t *mlx, t_cimage *ptr)
 	t_cimage	*temp2;
 
 	temp = ptr;
-	while(temp)
+	while (temp)
 	{
 		temp2 = temp;
 		temp = temp->next;

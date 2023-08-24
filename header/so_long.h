@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   so_long.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:00:28 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/23 19:27:18 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/24 20:26:30 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,16 @@ void		add_back_image(t_cimage *img, t_game *data);
 // initialize_exit.c
 void		exit_hook(void *param);
 
+// exit_utils.c
+void	simple_exit(t_game *data);
+void	after_exit(t_game *data);
+
 // initialize_collectible.c
 void		collectible_hook(void *param);
+
+// collectible_utils.c
+void	to_collect(t_cimage *temp, t_game *data);
+void	collected(t_cimage *temp, t_game *data);
 
 // image.c
 void		init_image(t_game *data);
