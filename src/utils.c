@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:58:42 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/23 16:25:12 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/23 21:06:50 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,15 @@ void	free_array(char **arr)
 {
 	int	i;
 
-	i = -1;
-	while (arr[++i])
+	i = 0;
+	while (arr[i])
+	{
 		free(arr[i]);
+		arr[i] = NULL;
+		i++;
+	}
 	free(arr);
+	arr = NULL;
 }
 
 /// @brief Manges the map errors

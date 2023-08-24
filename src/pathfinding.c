@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pathfinding.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:13:51 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/23 13:29:01 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/23 18:18:02 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ void	find_path(char **map)
 	char		**map_copy;
 	int			player[2];
 
+	player[0] = 0;
+	player[1] = 0;
 	find_element(map, &player);
 	map_copy = copymap(map);
 	if (map_copy == NULL)

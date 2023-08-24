@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_player.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:31:06 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/23 16:45:54 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/24 09:16:11 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char	**get_player_path(void)
 	char **path;
 
 	path = ft_calloc(21, sizeof(char *));
+	if (!path)
+		return (NULL);
 	path[0] = ft_strdup("Textures/Vampire/Vampire1.png");
 	path[1] = ft_strdup("Textures/Vampire/Vampire1.png");
 	path[2] = ft_strdup("Textures/Vampire/Vampire1.png");
@@ -51,13 +53,11 @@ char	**get_player_path(void)
 	path[11] = ft_strdup("Textures/Vampire/Vampire3.png");
 	path[12] = ft_strdup("Textures/Vampire/Vampire3.png");
 	path[13] = ft_strdup("Textures/Vampire/Vampire3.png");
-	path[14] = ft_strdup("Textures/Vampire/Vampire3.png");
+	path[14] = ft_strdup("Textures/Vampire/Vampire4.png");
 	path[15] = ft_strdup("Textures/Vampire/Vampire4.png");
 	path[16] = ft_strdup("Textures/Vampire/Vampire4.png");
 	path[17] = ft_strdup("Textures/Vampire/Vampire4.png");
-	path[18] = ft_strdup("Textures/Vampire/Vampire4.png");
-	path[19] = ft_strdup("Textures/Vampire/Vampire4.png");
-	path[20] = "\0";
+	path[18] = NULL;
 	return (path);
 }
 
@@ -68,13 +68,16 @@ void initialize_player(t_game *data)
 
 	get_player_position(data->map, data);
 	path = get_player_path();
+	if (!path)
+		free(data);
 	i = 0;
-	while (path[i] && path[i][0] != '\0')
+	while (path[i])
 	{
 		if (add_texture(new_texture(path[i]), &(data->player)) == 1)
-			free_data(data);
+			return (free_array(path), free_data(data));
 		i++;
 	}
+	free_array(path);
 }
 
 void	player_static_hook(void *param)

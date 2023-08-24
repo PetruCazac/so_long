@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   free_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/29 11:23:38 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/23 18:12:49 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/24 09:55:49 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../header/so_long.h"
 
+/// @brief Frees the background textures and images
+/// @param data Game data structure containing the images and textures
 void	free_background(t_game *data)
 {
 	if (data->texture.walls)
@@ -37,12 +38,17 @@ void	free_background(t_game *data)
 	}
 }
 
+/// @brief Deletes the texture and deletes the node
+/// @param ptr The head node of the list
 void	free_animation(t_animation *ptr)
 {
 	t_animation	*temp;
 	t_animation	*temp2;
 
 	temp = ptr;
+	while (temp->end)
+		temp = temp->end;
+	temp = temp->next;
 	while(temp)
 	{
 		temp2 = temp;
@@ -57,6 +63,9 @@ void	free_animation(t_animation *ptr)
 	}
 }
 
+/// @brief Deletes the image pointer and the list containing them
+/// @param mlx Pointer for the graphical manipulation
+/// @param ptr Pointer to the list containing the images
 void	free_image(mlx_t *mlx, t_cimage *ptr)
 {
 	t_cimage	*temp;
@@ -77,14 +86,11 @@ void	free_image(mlx_t *mlx, t_cimage *ptr)
 	}
 }
 
-
+/// @brief Frees all the allocated data
+/// @param data General game data
 void	free_data(t_game *data)
 {
-	if (data->map)
-	{
-		free_array(data->map);
-		data->map = NULL;
-	}
+	free_array(data->map);
 	free_background(data);
 	free_animation(data->player);
 	free_animation(data->collectible);

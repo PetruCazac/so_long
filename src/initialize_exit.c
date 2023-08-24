@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize_exit.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 10:31:06 by pcazac            #+#    #+#             */
-/*   Updated: 2023/07/27 14:41:03 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/23 23:46:09 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	**get_exit_path(void)
 	path[3] = ft_strdup("Textures/Fire/fire4.png");
 	path[4] = ft_strdup("Textures/Fire/fire5.png");
 	path[5] = ft_strdup("Textures/Fire/fire6.png");
-	path[6] = "\0";
+	path[6] = NULL;
 	return (path);
 }
 
@@ -56,7 +56,7 @@ char	**get_valid_exit_path(void)
 	path[1] = ft_strdup("Textures/Fire/fire12.png");
 	path[2] = ft_strdup("Textures/Fire/fire13.png");
 	path[3] = ft_strdup("Textures/Fire/fire14.png");
-	path[4] = "\0";
+	path[4] = NULL;
 	return (path);
 }
 
@@ -68,21 +68,25 @@ void initialize_exit(t_game *data)
 
 	get_exit_position(data->map, data);
 	path = get_exit_path();
+	if (!path)
+		free_data(data);
 	path2 = get_valid_exit_path();
-	i = 0;
-	while (path[i][0] != '\0')
+	if (!path2)
+		free_data(data);
+	i = -1;
+	while (path[++i])
 	{
 		if (add_texture(new_texture(path[i]), &(data->exit)) == 1)
-			return ; // free everything
-		i++;
+			return (free_array(path), free_array(path2), free_data(data));
 	}
-	i = 0;
-	while (path2[i][0] != '\0')
+	free_array(path);
+	i = -1;
+	while (path2[++i])
 	{
 		if (add_texture(new_texture(path2[i]), &(data->exit_valid)) == 1)
-			return ; // free everything
-		i++;
+			return (free_array(path2), free_data(data));
 	}
+	free_array(path2);
 }
 
 void	exit_hook(void *param)
