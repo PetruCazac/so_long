@@ -6,7 +6,7 @@
 #    By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/10 10:01:48 by pcazac            #+#    #+#              #
-#    Updated: 2023/08/24 20:26:43 by pcazac           ###   ########.fr        #
+#    Updated: 2023/08/24 21:29:00 by pcazac           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,6 @@ OBJ_PATH = obj
 CC= cc
 CFLAGS= -g -Wall -Wextra -Werror -Wunreachable-code -Ofast
 
-# -fsanitize=address
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(LIBMLX) $(OBJ) 
@@ -69,12 +68,12 @@ $(OBJ_PATH)/%.o : %.c
 clean:
 	/bin/rm -rf $(OBJ_PATH)
 	$(MAKE) -C ./libft/ clean
-	# make -C $(LIBMLX)/build clean
+	make -C $(LIBMLX)/build clean
 
 fclean: clean
 	/bin/rm -f $(NAME)
 	$(MAKE) -C ./libft/ fclean
-	# make -C $(LIBMLX)/build clean
+	make -C $(LIBMLX)/build clean
 
 re: fclean all
 

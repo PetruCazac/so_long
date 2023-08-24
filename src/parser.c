@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:00:05 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/23 16:37:07 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/24 21:40:09 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,8 @@ char	**parser(char *file)
 	matrix = get_matrix(fd, 0);
 	if (!matrix)
 		errormngr(NULL, "Allocation error");
+	if (!matrix[0])
+		errormngr(matrix, "MAP EMPTY!");
 	purge(matrix);
 	square(matrix);
 	all_walls_closed(matrix);
