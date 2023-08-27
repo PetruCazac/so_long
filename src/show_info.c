@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 10:17:26 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/27 18:25:13 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/27 18:32:38 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	put_score(t_game *data)
 	char				*dd;
 
 	if (t)
-			mlx_delete_image(data->mlx, t);
+		mlx_delete_image(data->mlx, t);
 	dd = ft_itoa(data->score);
 	d = ft_strjoin("SCORE ", dd);
 	free(dd);

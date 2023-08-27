@@ -6,13 +6,13 @@
 #    By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/10 10:01:48 by pcazac            #+#    #+#              #
-#    Updated: 2023/08/24 21:29:00 by pcazac           ###   ########.fr        #
+#    Updated: 2023/08/27 21:17:35 by pcazac           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = so_long
 LIBFT = libft/libft.a
-LIBMLX = ./MLX42
+LIBMLX = MLX42
 
 LIB_PATH = -Llibft
 LIBRARY = -lft
@@ -50,10 +50,10 @@ CFLAGS= -g -Wall -Wextra -Werror -Wunreachable-code -Ofast
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(LIBMLX) $(OBJ) 
+$(NAME): $(LIBFT) $(LIBMLX) $(OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB_PATH) $(LIBRARY) $(MINILIBX) $(MLX) $(MLX_PATH)
 
-$(LIBMLX): $(LIBMLX_PATH)/libmlx42.a
+$(LIBMLX): submodule $(LIBMLX_PATH)/libmlx42.a
 
 $(LIBMLX_PATH)/libmlx42.a:
 	cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
@@ -64,6 +64,12 @@ $(LIBFT):
 $(OBJ_PATH)/%.o : %.c
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+submodule :
+	if [ -z "$(shell ls -A $(LIBMLX))" ]; then \
+		git submodule init $(LIBMLX); \
+		git submodule update $(LIBMLX); \
+	fi
 
 clean:
 	/bin/rm -rf $(OBJ_PATH)
@@ -77,4 +83,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all, clean, fclean, re
+.PHONY: all, clean, fclean, re, submodule
