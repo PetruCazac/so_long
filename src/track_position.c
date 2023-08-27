@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   track_position.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/22 21:27:59 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/23 18:51:04 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/27 18:17:21 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	track_up(t_game *data)
 		return ;
 	else
 		data->p_y -= STEP;
+	data->moves += 1;
 }
 
 void	track_down(t_game *data)
@@ -50,6 +51,7 @@ void	track_down(t_game *data)
 		return ;
 	else
 		data->p_y += STEP;
+	data->moves++;
 }
 
 void	track_left(t_game *data)
@@ -70,6 +72,7 @@ void	track_left(t_game *data)
 		return ;
 	else
 		data->p_x -= STEP;
+	data->moves++;
 }
 
 void	track_right(t_game *data)
@@ -90,4 +93,5 @@ void	track_right(t_game *data)
 		return ;
 	else
 		data->p_x += STEP;
+	data->moves++;
 }

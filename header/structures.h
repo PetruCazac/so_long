@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/07 15:00:28 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/24 10:04:32 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/27 18:13:19 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_element
 	int				e_y;
 	int				score;
 	int				c_count;
+	int				moves;
 	int				time;
 	int				time_p;
 	char			**map;

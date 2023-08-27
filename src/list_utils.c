@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 13:41:03 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/24 19:19:05 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/27 18:10:07 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	initialize_ints(t_game *data, char **map)
 	data->e_y = 0;
 	data->score = 0;
 	data->c_count = 0;
+	data->moves = 0;
 	data->time = 0;
 	data->time_p = 0;
 	data->coll_tp = NULL;
