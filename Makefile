@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pcazac <pcazac@student.42heilbronn.de>     +#+  +:+       +#+         #
+#    By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/10 10:01:48 by pcazac            #+#    #+#              #
-#    Updated: 2023/08/27 21:17:35 by pcazac           ###   ########.fr        #
+#    Updated: 2023/08/28 14:20:18 by pcazac           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,8 @@ LIBMLX_PATH = $(LIBMLX)/build
 OS := $(shell uname)
 ifeq ($(OS), Darwin)
 	MINILIBX = MLX42/build/libmlx42.a
-	MLX_PATH = -L"/Users/$(USER)/.brew/opt/glfw/lib/"
-	MLX = -Iinclude -lglfw -framework Cocoa -framework OpenGL -framework IOKit -DDEBUG=1
+	MLX = -Iinclude -lglfw -framework Cocoa -framework OpenGL -framework IOKit\
+	 -DDEBUG=1
 else ifeq ($(OS), Linux)
 	MINILIBX = MLX42/build/libmlx42.a
 	MLX_PATH = -L"MLX42/build/"
@@ -51,11 +51,12 @@ CFLAGS= -g -Wall -Wextra -Werror -Wunreachable-code -Ofast
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(LIBMLX) $(OBJ)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB_PATH) $(LIBRARY) $(MINILIBX) $(MLX) $(MLX_PATH)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(LIB_PATH) $(LIBRARY) $(MINILIBX) $(MLX)
 
-$(LIBMLX): submodule $(LIBMLX_PATH)/libmlx42.a
+$(LIBMLX): $(LIBMLX_PATH)/libmlx42.a
 
 $(LIBMLX_PATH)/libmlx42.a:
+	@git submodule update --init --recursive
 	cmake $(LIBMLX) -B $(LIBMLX)/build && make -C $(LIBMLX)/build -j4
 
 $(LIBFT):
@@ -64,12 +65,6 @@ $(LIBFT):
 $(OBJ_PATH)/%.o : %.c
 	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
-
-submodule :
-	if [ -z "$(shell ls -A $(LIBMLX))" ]; then \
-		git submodule init $(LIBMLX); \
-		git submodule update $(LIBMLX); \
-	fi
 
 clean:
 	/bin/rm -rf $(OBJ_PATH)
@@ -83,4 +78,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all, clean, fclean, re, submodule
+.PHONY: all, clean, fclean, re

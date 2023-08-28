@@ -6,7 +6,7 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/27 13:39:39 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/23 16:03:58 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/28 11:22:54 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	keypress(mlx_key_data_t keydata, void *param)
 	t_game	*data;
 
 	data = (t_game *)param;
-	if (keydata.key == 256 && keydata.action == 1)
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == 1)
 		free_data(data);
 	if (!data->exited)
 		return ;

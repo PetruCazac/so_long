@@ -6,11 +6,16 @@
 /*   By: pcazac <pcazac@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 10:10:40 by pcazac            #+#    #+#             */
-/*   Updated: 2023/08/23 18:52:28 by pcazac           ###   ########.fr       */
+/*   Updated: 2023/08/28 12:02:41 by pcazac           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/so_long.h"
+// void	at_exit(void)
+// {
+// 	system("leaks so_long");
+// }
+// atexit(at_exit);
 
 int	main(int argc, char *argv[])
 {
